@@ -1,40 +1,38 @@
 package id.xtramile.indonesia.model;
 
-import java.util.Objects;
-
 public class Village {
-    private final String id;
+    private final int code;
+    private final int districtCode;
     private final String name;
-    private final String districtId;
-    private final String cityId;
-    private final String provinceId;
+    private final double latitude;
+    private final double longitude;
 
-    public Village(String id, String name, String districtId, String cityId, String provinceId) {
-        this.id = id;
+    public Village(int code, int districtCode, String name, double latitude, double longitude) {
+        this.code = code;
+        this.districtCode = districtCode;
         this.name = name;
-        this.districtId = districtId;
-        this.cityId = cityId;
-        this.provinceId = provinceId;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public String getId() {
-        return id;
+    public int getCode() {
+        return code;
+    }
+
+    public int getDistrictCode() {
+        return districtCode;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getDistrictId() {
-        return districtId;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public String getCityId() {
-        return cityId;
-    }
-
-    public String getProvinceId() {
-        return provinceId;
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override
@@ -42,22 +40,22 @@ public class Village {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Village village = (Village) o;
-        return Objects.equals(id, village.id);
+        return code == village.code;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Integer.hashCode(code);
     }
 
     @Override
     public String toString() {
         return "Village{" +
-                "id='" + id + '\'' +
+                "code=" + code +
+                ", districtCode=" + districtCode +
                 ", name='" + name + '\'' +
-                ", districtId='" + districtId + '\'' +
-                ", cityId='" + cityId + '\'' +
-                ", provinceId='" + provinceId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }

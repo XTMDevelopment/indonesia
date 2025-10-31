@@ -1,22 +1,32 @@
 package id.xtramile.indonesia.model;
 
-import java.util.Objects;
-
 public class Province {
-    private final String id;
+    private final int code;
     private final String name;
+    private final double latitude;
+    private final double longitude;
 
-    public Province(String id, String name) {
-        this.id = id;
+    public Province(int code, String name, double latitude, double longitude) {
+        this.code = code;
         this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public String getId() {
-        return id;
+    public int getCode() {
+        return code;
     }
 
     public String getName() {
         return name;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override
@@ -24,19 +34,21 @@ public class Province {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Province province = (Province) o;
-        return Objects.equals(id, province.id);
+        return code == province.code;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Integer.hashCode(code);
     }
 
     @Override
     public String toString() {
         return "Province{" +
-                "id='" + id + '\'' +
+                "code=" + code +
                 ", name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }

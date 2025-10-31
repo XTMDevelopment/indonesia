@@ -1,28 +1,38 @@
 package id.xtramile.indonesia.model;
 
-import java.util.Objects;
-
 public class City {
-    private final String id;
+    private final int code;
+    private final int provinceCode;
     private final String name;
-    private final String provinceId;
+    private final double latitude;
+    private final double longitude;
 
-    public City(String id, String name, String provinceId) {
-        this.id = id;
+    public City(int code, int provinceCode, String name, double latitude, double longitude) {
+        this.code = code;
+        this.provinceCode = provinceCode;
         this.name = name;
-        this.provinceId = provinceId;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public String getId() {
-        return id;
+    public int getCode() {
+        return code;
+    }
+
+    public int getProvinceCode() {
+        return provinceCode;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getProvinceId() {
-        return provinceId;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override
@@ -30,20 +40,22 @@ public class City {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return Objects.equals(id, city.id);
+        return code == city.code;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return Integer.hashCode(code);
     }
 
     @Override
     public String toString() {
         return "City{" +
-                "id='" + id + '\'' +
+                "code=" + code +
+                ", provinceCode=" + provinceCode +
                 ", name='" + name + '\'' +
-                ", provinceId='" + provinceId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }
