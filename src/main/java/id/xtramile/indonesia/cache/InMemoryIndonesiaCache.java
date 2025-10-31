@@ -43,6 +43,7 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
         cities.values().forEach(city ->
                 this.citiesByProvince.computeIfAbsent(city.getProvinceCode(), k -> new ArrayList<>())
                         .add(city));
+
         updateRefreshTime();
     }
 
@@ -55,6 +56,7 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
         districts.values().forEach(district ->
                 this.districtsByCity.computeIfAbsent(district.getCityCode(), k -> new ArrayList<>())
                         .add(district));
+
         updateRefreshTime();
     }
 
@@ -67,6 +69,7 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
         villages.values().forEach(village ->
                 this.villagesByDistrict.computeIfAbsent(village.getDistrictCode(), k -> new ArrayList<>())
                         .add(village));
+
         updateRefreshTime();
     }
 
