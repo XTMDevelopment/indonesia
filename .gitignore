@@ -27,3 +27,4 @@ out/
 .vscode/
 /mvnw
 /mvnw.cmd
+/htmlReport/

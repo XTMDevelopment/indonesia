@@ -1,13 +1,13 @@
 package id.xtramile.indonesia.model;
 
 public class District {
-    private final int code;
-    private final int cityCode;
+    private final long code;
+    private final long cityCode;
     private final String name;
     private final double latitude;
     private final double longitude;
 
-    public District(int code, int cityCode, String name, double latitude, double longitude) {
+    public District(long code, long cityCode, String name, double latitude, double longitude) {
         this.code = code;
         this.cityCode = cityCode;
         this.name = name;
@@ -15,11 +15,11 @@ public class District {
         this.longitude = longitude;
     }
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 
-    public int getCityCode() {
+    public long getCityCode() {
         return cityCode;
     }
 
@@ -45,7 +45,7 @@ public class District {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(code);
+        return Long.hashCode(code);
     }
 
     @Override

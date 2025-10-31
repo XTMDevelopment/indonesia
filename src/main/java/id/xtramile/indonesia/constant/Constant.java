@@ -35,9 +35,9 @@ public final class Constant {
     public static final String ERROR_FAILED_TO_LOAD_VILLAGES = "Failed to load villages from CSV";
     public static final String ERROR_FAILED_TO_REFRESH_DATA = "Failed to refresh data";
 
-    public static final int DIVISOR_PROVINCE_FROM_DISTRICT = 10000;
-    public static final int DIVISOR_PROVINCE_FROM_VILLAGE = 100000000;
-    public static final int DIVISOR_CITY_FROM_VILLAGE = 1000000;
+    public static final long DIVISOR_PROVINCE_FROM_DISTRICT = 10000L;
+    public static final long DIVISOR_PROVINCE_FROM_VILLAGE = 100000000L;
+    public static final long DIVISOR_CITY_FROM_VILLAGE = 1000000L;
 
     private Constant() {
         throw new AssertionError("Utility class should not be instantiated");

@@ -32,7 +32,7 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public Optional<Province> findProvince(Integer provinceCode) {
+    public Optional<Province> findProvince(Long provinceCode) {
         return Optional.ofNullable(cache.getProvinces().get(provinceCode));
     }
 
@@ -54,12 +54,12 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public Optional<City> findCity(Integer cityCode) {
+    public Optional<City> findCity(Long cityCode) {
         return Optional.ofNullable(cache.getCities().get(cityCode));
     }
 
     @Override
-    public List<City> getCitiesByProvince(Integer provinceCode) {
+    public List<City> getCitiesByProvince(Long provinceCode) {
         return new ArrayList<>(cache.getCitiesByProvince().getOrDefault(provinceCode, new ArrayList<>()));
     }
 
@@ -81,12 +81,12 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public Optional<District> findDistrict(Integer districtCode) {
+    public Optional<District> findDistrict(Long districtCode) {
         return Optional.ofNullable(cache.getDistricts().get(districtCode));
     }
 
     @Override
-    public List<District> getDistrictsByCity(Integer cityCode) {
+    public List<District> getDistrictsByCity(Long cityCode) {
         return new ArrayList<>(cache.getDistrictsByCity().getOrDefault(cityCode, new ArrayList<>()));
     }
 
@@ -108,12 +108,12 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public Optional<Village> findVillage(Integer villageCode) {
+    public Optional<Village> findVillage(Long villageCode) {
         return Optional.ofNullable(cache.getVillages().get(villageCode));
     }
 
     @Override
-    public List<Village> getVillagesByDistrict(Integer districtCode) {
+    public List<Village> getVillagesByDistrict(Long districtCode) {
         return new ArrayList<>(cache.getVillagesByDistrict().getOrDefault(districtCode, new ArrayList<>()));
     }
 
@@ -135,8 +135,8 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public List<Village> getVillagesByProvince(Integer provinceCode) {
-        Map<Integer, District> districts = cache.getDistricts();
+    public List<Village> getVillagesByProvince(Long provinceCode) {
+        Map<Long, District> districts = cache.getDistricts();
         List<District> provinceDistricts = districts.values().stream()
                 .filter(district -> Objects.equals(district.getCode() / Constant.DIVISOR_PROVINCE_FROM_DISTRICT, provinceCode))
                 .collect(Collectors.toList());
@@ -145,8 +145,8 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
-    public List<Village> getVillagesByCity(Integer cityCode) {
-        Map<Integer, District> districts = cache.getDistricts();
+    public List<Village> getVillagesByCity(Long cityCode) {
+        Map<Long, District> districts = cache.getDistricts();
         List<District> cityDistricts = districts.values().stream()
                 .filter(district -> Objects.equals(district.getCityCode(), cityCode))
                 .collect(Collectors.toList());
@@ -165,7 +165,7 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Integer, Province> provinces = cache.getProvinces();
+        Map<Long, Province> provinces = cache.getProvinces();
 
         return new Indonesia(provinces.get(city.getProvinceCode()), city, null, null);
     }
@@ -176,10 +176,10 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Integer, Province> provinces = cache.getProvinces();
-        Map<Integer, City> cities = cache.getCities();
+        Map<Long, Province> provinces = cache.getProvinces();
+        Map<Long, City> cities = cache.getCities();
 
-        int provinceCode = district.getCode() / Constant.DIVISOR_PROVINCE_FROM_DISTRICT;
+        long provinceCode = district.getCode() / Constant.DIVISOR_PROVINCE_FROM_DISTRICT;
 
         return new Indonesia(provinces.get(provinceCode), cities.get(district.getCityCode()), district, null);
     }
@@ -190,12 +190,12 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Integer, Province> provinces = cache.getProvinces();
-        Map<Integer, City> cities = cache.getCities();
-        Map<Integer, District> districts = cache.getDistricts();
+        Map<Long, Province> provinces = cache.getProvinces();
+        Map<Long, City> cities = cache.getCities();
+        Map<Long, District> districts = cache.getDistricts();
 
-        int provinceCode = village.getCode() / Constant.DIVISOR_PROVINCE_FROM_VILLAGE;
-        int cityCode = village.getCode() / Constant.DIVISOR_CITY_FROM_VILLAGE;
+        long provinceCode = village.getCode() / Constant.DIVISOR_PROVINCE_FROM_VILLAGE;
+        long cityCode = village.getCode() / Constant.DIVISOR_CITY_FROM_VILLAGE;
 
         return new Indonesia(
                 provinces.get(provinceCode),
@@ -242,7 +242,7 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return Collections.emptyList();
         }
 
-        Map<Integer, List<Village>> villagesByDistrict = cache.getVillagesByDistrict();
+        Map<Long, List<Village>> villagesByDistrict = cache.getVillagesByDistrict();
         List<Village> villages = new ArrayList<>();
 
         for (District district : districts) {

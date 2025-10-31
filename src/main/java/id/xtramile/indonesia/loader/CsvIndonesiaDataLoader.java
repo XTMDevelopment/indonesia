@@ -18,8 +18,8 @@ import java.util.Objects;
 public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
     @Override
-    public Map<Integer, Province> loadProvinces() throws DataLoadException {
-        Map<Integer, Province> provinces = new HashMap<>();
+    public Map<Long, Province> loadProvinces() throws DataLoadException {
+        Map<Long, Province> provinces = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(Constant.CSV_PATH_PROVINCES))
@@ -28,10 +28,12 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
             while ((line = reader.readNext()) != null) {
                 if (line.length >= Constant.PROVINCE_CSV_COLUMN_COUNT) {
-
                     try {
-                        int code = Integer.parseInt(line[0]);
+                        long code = Long.parseLong(line[0]);
                         String name = line[1];
+                        if (line[2] == null || line[2].trim().isEmpty() || line[3] == null || line[3].trim().isEmpty()) {
+                            continue;
+                        }
                         double latitude = Double.parseDouble(line[2]);
                         double longitude = Double.parseDouble(line[3]);
 
@@ -55,8 +57,8 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<Integer, City> loadCities() throws DataLoadException {
-        Map<Integer, City> cities = new HashMap<>();
+    public Map<Long, City> loadCities() throws DataLoadException {
+        Map<Long, City> cities = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(Constant.CSV_PATH_CITIES))
@@ -65,11 +67,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
             while ((line = reader.readNext()) != null) {
                 if (line.length >= Constant.CITY_CSV_COLUMN_COUNT) {
-
                     try {
-                        int code = Integer.parseInt(line[0]);
-                        int provinceCode = Integer.parseInt(line[1]);
+                        long code = Long.parseLong(line[0]);
+                        long provinceCode = Long.parseLong(line[1]);
                         String name = line[2];
+                        if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+                            continue;
+                        }
                         double latitude = Double.parseDouble(line[3]);
                         double longitude = Double.parseDouble(line[4]);
 
@@ -93,8 +97,8 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<Integer, District> loadDistricts() throws DataLoadException {
-        Map<Integer, District> districts = new HashMap<>();
+    public Map<Long, District> loadDistricts() throws DataLoadException {
+        Map<Long, District> districts = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(Constant.CSV_PATH_DISTRICTS))
@@ -103,11 +107,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
             while ((line = reader.readNext()) != null) {
                 if (line.length >= Constant.DISTRICT_CSV_COLUMN_COUNT) {
-
                     try {
-                        int code = Integer.parseInt(line[0]);
-                        int cityCode = Integer.parseInt(line[1]);
+                        long code = Long.parseLong(line[0]);
+                        long cityCode = Long.parseLong(line[1]);
                         String name = line[2];
+                        if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+                            continue;
+                        }
                         double latitude = Double.parseDouble(line[3]);
                         double longitude = Double.parseDouble(line[4]);
 
@@ -131,13 +137,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<Integer, Village> loadVillages() throws DataLoadException {
-        Map<Integer, Village> villages = new HashMap<>();
+    public Map<Long, Village> loadVillages() throws DataLoadException {
+        Map<Long, Village> villages = new HashMap<>();
 
         try {
-            Map<Integer, Province> provinces = loadProvinces();
+            Map<Long, Province> provinces = loadProvinces();
 
-            for (Integer provinceCode : provinces.keySet()) {
+            for (Long provinceCode : provinces.keySet()) {
                 String villageCsvPath = Constant.CSV_PATH_VILLAGES_PREFIX + provinceCode + Constant.CSV_EXTENSION;
 
                 try (CSVReader reader = new CSVReader(new InputStreamReader(
@@ -147,11 +153,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
                     while ((line = reader.readNext()) != null) {
                         if (line.length >= Constant.VILLAGE_CSV_COLUMN_COUNT) {
-
                             try {
-                                int code = Integer.parseInt(line[0]);
-                                int districtCode = Integer.parseInt(line[1]);
+                                long code = Long.parseLong(line[0]);
+                                long districtCode = Long.parseLong(line[1]);
                                 String name = line[2];
+                                if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+                                    continue;
+                                }
                                 double latitude = Double.parseDouble(line[3]);
                                 double longitude = Double.parseDouble(line[4]);
 

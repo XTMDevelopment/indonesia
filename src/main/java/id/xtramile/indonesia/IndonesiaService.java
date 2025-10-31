@@ -8,27 +8,27 @@ import java.util.Optional;
 
 public interface IndonesiaService {
 
-    Optional<Province> findProvince(Integer provinceCode);
+    Optional<Province> findProvince(Long provinceCode);
     List<Province> getAllProvinces();
     List<Province> searchProvinces(String query);
 
-    Optional<City> findCity(Integer cityCode);
-    List<City> getCitiesByProvince(Integer provinceCode);
+    Optional<City> findCity(Long cityCode);
+    List<City> getCitiesByProvince(Long provinceCode);
     List<City> getAllCities();
     List<City> searchCities(String query);
 
-    Optional<District> findDistrict(Integer districtCode);
-    List<District> getDistrictsByCity(Integer cityCode);
+    Optional<District> findDistrict(Long districtCode);
+    List<District> getDistrictsByCity(Long cityCode);
     List<District> getAllDistricts();
     List<District> searchDistricts(String query);
 
-    Optional<Village> findVillage(Integer villageCode);
-    List<Village> getVillagesByDistrict(Integer districtCode);
+    Optional<Village> findVillage(Long villageCode);
+    List<Village> getVillagesByDistrict(Long districtCode);
     List<Village> getAllVillages();
     List<Village> searchVillages(String query);
 
-    List<Village> getVillagesByProvince(Integer provinceCode);
-    List<Village> getVillagesByCity(Integer cityCode);
+    List<Village> getVillagesByProvince(Long provinceCode);
+    List<Village> getVillagesByCity(Long cityCode);
 
     Indonesia buildFrom(Province province);
     Indonesia buildFrom(City city);

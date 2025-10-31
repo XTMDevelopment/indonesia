@@ -15,27 +15,27 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryIndonesiaCache implements IndonesiaDataCache {
 
-    private final Map<Integer, Province> provinces = new ConcurrentHashMap<>();
-    private final Map<Integer, City> cities = new ConcurrentHashMap<>();
-    private final Map<Integer, District> districts = new ConcurrentHashMap<>();
-    private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
+    private final Map<Long, Province> provinces = new ConcurrentHashMap<>();
+    private final Map<Long, City> cities = new ConcurrentHashMap<>();
+    private final Map<Long, District> districts = new ConcurrentHashMap<>();
+    private final Map<Long, Village> villages = new ConcurrentHashMap<>();
 
-    private final Map<Integer, List<City>> citiesByProvince = new ConcurrentHashMap<>();
-    private final Map<Integer, List<District>> districtsByCity = new ConcurrentHashMap<>();
-    private final Map<Integer, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
+    private final Map<Long, List<City>> citiesByProvince = new ConcurrentHashMap<>();
+    private final Map<Long, List<District>> districtsByCity = new ConcurrentHashMap<>();
+    private final Map<Long, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
 
     private volatile boolean loaded = false;
     private final AtomicLong lastRefreshTime = new AtomicLong(0);
 
     @Override
-    public void putProvinces(Map<Integer, Province> provinces) {
+    public void putProvinces(Map<Long, Province> provinces) {
         this.provinces.clear();
         this.provinces.putAll(provinces);
         updateRefreshTime();
     }
 
     @Override
-    public void putCities(Map<Integer, City> cities) {
+    public void putCities(Map<Long, City> cities) {
         this.cities.clear();
         this.cities.putAll(cities);
 
@@ -48,7 +48,7 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
     }
 
     @Override
-    public void putDistricts(Map<Integer, District> districts) {
+    public void putDistricts(Map<Long, District> districts) {
         this.districts.clear();
         this.districts.putAll(districts);
 
@@ -61,7 +61,7 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
     }
 
     @Override
-    public void putVillages(Map<Integer, Village> villages) {
+    public void putVillages(Map<Long, Village> villages) {
         this.villages.clear();
         this.villages.putAll(villages);
 
@@ -74,37 +74,37 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
     }
 
     @Override
-    public Map<Integer, Province> getProvinces() {
+    public Map<Long, Province> getProvinces() {
         return new HashMap<>(provinces);
     }
 
     @Override
-    public Map<Integer, City> getCities() {
+    public Map<Long, City> getCities() {
         return new HashMap<>(cities);
     }
 
     @Override
-    public Map<Integer, District> getDistricts() {
+    public Map<Long, District> getDistricts() {
         return new HashMap<>(districts);
     }
 
     @Override
-    public Map<Integer, Village> getVillages() {
+    public Map<Long, Village> getVillages() {
         return new HashMap<>(villages);
     }
 
     @Override
-    public Map<Integer, List<City>> getCitiesByProvince() {
+    public Map<Long, List<City>> getCitiesByProvince() {
         return new HashMap<>(citiesByProvince);
     }
 
     @Override
-    public Map<Integer, List<District>> getDistrictsByCity() {
+    public Map<Long, List<District>> getDistrictsByCity() {
         return new HashMap<>(districtsByCity);
     }
 
     @Override
-    public Map<Integer, List<Village>> getVillagesByDistrict() {
+    public Map<Long, List<Village>> getVillagesByDistrict() {
         return new HashMap<>(villagesByDistrict);
     }
 
