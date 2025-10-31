@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,16 +72,16 @@ class DefaultIndonesiaServiceTest {
         villages.put(1201011001L, village2);
 
         Map<Long, List<City>> citiesByProvince = new HashMap<>();
-        citiesByProvince.put(11L, Arrays.asList(city1));
-        citiesByProvince.put(12L, Arrays.asList(city2));
+        citiesByProvince.put(11L, Collections.singletonList(city1));
+        citiesByProvince.put(12L, Collections.singletonList(city2));
 
         Map<Long, List<District>> districtsByCity = new HashMap<>();
-        districtsByCity.put(1101L, Arrays.asList(district1));
-        districtsByCity.put(1201L, Arrays.asList(district2));
+        districtsByCity.put(1101L, Collections.singletonList(district1));
+        districtsByCity.put(1201L, Collections.singletonList(district2));
 
         Map<Long, List<Village>> villagesByDistrict = new HashMap<>();
-        villagesByDistrict.put(110101L, Arrays.asList(village1));
-        villagesByDistrict.put(120101L, Arrays.asList(village2));
+        villagesByDistrict.put(110101L, Collections.singletonList(village1));
+        villagesByDistrict.put(120101L, Collections.singletonList(village2));
 
         when(cache.getProvinces()).thenReturn(provinces);
         when(cache.getCities()).thenReturn(cities);
@@ -299,8 +298,7 @@ class DefaultIndonesiaServiceTest {
         assertNull(result.getDistrict());
         assertNull(result.getVillage());
 
-        City nullCity = null;
-        Indonesia nullResult = service.buildFrom(nullCity);
+        Indonesia nullResult = service.buildFrom((City) null);
         assertNotNull(nullResult);
         assertNull(nullResult.getProvince());
         assertNull(nullResult.getCity());
@@ -315,8 +313,7 @@ class DefaultIndonesiaServiceTest {
         assertEquals(district1, result.getDistrict());
         assertNull(result.getVillage());
 
-        District nullDistrict = null;
-        Indonesia nullResult = service.buildFrom(nullDistrict);
+        Indonesia nullResult = service.buildFrom((District) null);
         assertNotNull(nullResult);
         assertNull(nullResult.getProvince());
     }
@@ -330,8 +327,7 @@ class DefaultIndonesiaServiceTest {
         assertEquals(district1, result.getDistrict());
         assertEquals(village1, result.getVillage());
 
-        Village nullVillage = null;
-        Indonesia nullResult = service.buildFrom(nullVillage);
+        Indonesia nullResult = service.buildFrom((Village) null);
         assertNotNull(nullResult);
         assertNull(nullResult.getVillage());
     }

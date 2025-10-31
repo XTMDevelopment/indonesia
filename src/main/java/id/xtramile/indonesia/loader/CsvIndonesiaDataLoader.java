@@ -31,13 +31,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                     try {
                         long code = Long.parseLong(line[0]);
                         String name = line[1];
-                        if (line[2] == null || line[2].trim().isEmpty() || line[3] == null || line[3].trim().isEmpty()) {
+
+                        double[] coordinates = parseCoordinatesForProvince(line);
+                        if (coordinates == null) {
                             continue;
                         }
-                        double latitude = Double.parseDouble(line[2]);
-                        double longitude = Double.parseDouble(line[3]);
 
-                        Province province = new Province(code, name, latitude, longitude);
+                        Province province = new Province(code, name, coordinates[0], coordinates[1]);
                         provinces.put(province.getCode(), province);
 
                     } catch (NumberFormatException e) {
@@ -71,13 +71,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                         long code = Long.parseLong(line[0]);
                         long provinceCode = Long.parseLong(line[1]);
                         String name = line[2];
-                        if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+
+                        double[] coordinates = parseCoordinates(line);
+                        if (coordinates == null) {
                             continue;
                         }
-                        double latitude = Double.parseDouble(line[3]);
-                        double longitude = Double.parseDouble(line[4]);
 
-                        City city = new City(code, provinceCode, name, latitude, longitude);
+                        City city = new City(code, provinceCode, name, coordinates[0], coordinates[1]);
                         cities.put(city.getCode(), city);
 
                     } catch (NumberFormatException e) {
@@ -111,13 +111,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                         long code = Long.parseLong(line[0]);
                         long cityCode = Long.parseLong(line[1]);
                         String name = line[2];
-                        if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+
+                        double[] coordinates = parseCoordinates(line);
+                        if (coordinates == null) {
                             continue;
                         }
-                        double latitude = Double.parseDouble(line[3]);
-                        double longitude = Double.parseDouble(line[4]);
 
-                        District district = new District(code, cityCode, name, latitude, longitude);
+                        District district = new District(code, cityCode, name, coordinates[0], coordinates[1]);
                         districts.put(district.getCode(), district);
 
                     } catch (NumberFormatException e) {
@@ -157,13 +157,13 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                                 long code = Long.parseLong(line[0]);
                                 long districtCode = Long.parseLong(line[1]);
                                 String name = line[2];
-                                if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+
+                                double[] coordinates = parseCoordinates(line);
+                                if (coordinates == null) {
                                     continue;
                                 }
-                                double latitude = Double.parseDouble(line[3]);
-                                double longitude = Double.parseDouble(line[4]);
 
-                                Village village = new Village(code, districtCode, name, latitude, longitude);
+                                Village village = new Village(code, districtCode, name, coordinates[0], coordinates[1]);
                                 villages.put(village.getCode(), village);
 
                             } catch (NumberFormatException e) {
@@ -191,5 +191,45 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                 loadDistricts(),
                 loadVillages()
         );
+    }
+
+    private double[] parseCoordinates(String[] line) {
+        if (line.length < Constant.CITY_CSV_COLUMN_COUNT) {
+            return null;
+        }
+
+        if (line[3] == null || line[3].trim().isEmpty() || line[4] == null || line[4].trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            double latitude = Double.parseDouble(line[3]);
+            double longitude = Double.parseDouble(line[4]);
+
+            return new double[]{latitude, longitude};
+
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private double[] parseCoordinatesForProvince(String[] line) {
+        if (line.length < Constant.PROVINCE_CSV_COLUMN_COUNT) {
+            return null;
+        }
+
+        if (line[2] == null || line[2].trim().isEmpty() || line[3] == null || line[3].trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            double latitude = Double.parseDouble(line[2]);
+            double longitude = Double.parseDouble(line[3]);
+
+            return new double[]{latitude, longitude};
+
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }

@@ -13,6 +13,7 @@ import id.xtramile.indonesia.model.Village;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -163,7 +164,7 @@ class IndonesiaDataCacheIntegrationTest {
         
         Long firstKey = provinces1.keySet().iterator().next();
         Province firstProvince = provinces1.values().iterator().next();
-        Map<Long, Province> provinces2 = new java.util.HashMap<>();
+        Map<Long, Province> provinces2 = new HashMap<>();
         provinces2.put(firstKey, firstProvince);
         cache.putProvinces(provinces2);
         
@@ -210,7 +211,7 @@ class IndonesiaDataCacheIntegrationTest {
     }
 
     @Test
-    void testConcurrentAccess() throws DataLoadException, InterruptedException {
+    void testConcurrentAccess() throws DataLoadException {
         Map<Long, Province> provinces = loader.loadProvinces();
         cache.putProvinces(provinces);
         
@@ -276,7 +277,7 @@ class IndonesiaDataCacheIntegrationTest {
         cache.refresh();
         assertFalse(cache.isLoaded());
         
-        cache.putProvinces(new java.util.HashMap<>());
+        cache.putProvinces(new HashMap<>());
         assertFalse(cache.isLoaded());
     }
 }

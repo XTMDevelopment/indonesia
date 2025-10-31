@@ -104,6 +104,7 @@ class IndonesiaDataPerformanceTest {
     void testFindOperationPerformance() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             long provinceCode = provinces.get(0).getCode();
             
             long startTime = System.currentTimeMillis();
@@ -122,6 +123,7 @@ class IndonesiaDataPerformanceTest {
     void testHierarchicalQueryPerformance() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             long provinceCode = provinces.get(0).getCode();
             List<City> cities = service.getCitiesByProvince(provinceCode);
             
@@ -147,6 +149,7 @@ class IndonesiaDataPerformanceTest {
     void testBuildFromPerformance() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             Province province = provinces.get(0);
             List<City> cities = service.getCitiesByProvince(province.getCode());
             
@@ -232,9 +235,9 @@ class IndonesiaDataPerformanceTest {
     private Map<Long, Province> createLargeProvincesMap(int count) {
         Map<Long, Province> provinces = new HashMap<>();
         for (int i = 1; i <= count; i++) {
-            long code = i;
-            provinces.put(code, new Province(code, "Province " + i, -6.0 + (i * 0.01), 106.0 + (i * 0.01)));
+            provinces.put((long) i, new Province(i, "Province " + i, -6.0 + (i * 0.01), 106.0 + (i * 0.01)));
         }
+
         return provinces;
     }
 
@@ -245,6 +248,7 @@ class IndonesiaDataPerformanceTest {
             long provinceCode = (i % 10) + 1;
             cities.put(code, new City(code, provinceCode, "City " + i, -6.0 + (i * 0.001), 106.0 + (i * 0.001)));
         }
+
         return cities;
     }
 }

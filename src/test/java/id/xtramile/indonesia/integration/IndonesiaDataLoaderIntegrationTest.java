@@ -25,14 +25,11 @@ class IndonesiaDataLoaderIntegrationTest {
 
         assertNotNull(provinces);
         assertFalse(provinces.isEmpty());
-        assertTrue(provinces.size() > 0);
 
         for (Province province : provinces.values()) {
             assertTrue(province.getCode() > 0);
             assertNotNull(province.getName());
             assertFalse(province.getName().trim().isEmpty());
-            assertNotNull(province.getLatitude());
-            assertNotNull(province.getLongitude());
         }
 
         Set<Long> codes = provinces.keySet();
@@ -45,7 +42,6 @@ class IndonesiaDataLoaderIntegrationTest {
 
         assertNotNull(cities);
         assertFalse(cities.isEmpty());
-        assertTrue(cities.size() > 0);
 
         Map<Long, Province> provinces = loader.loadProvinces();
 
@@ -53,9 +49,7 @@ class IndonesiaDataLoaderIntegrationTest {
             assertTrue(city.getCode() > 0);
             assertNotNull(city.getName());
             assertFalse(city.getName().trim().isEmpty());
-            assertNotNull(city.getLatitude());
-            assertNotNull(city.getLongitude());
-            
+
             assertTrue(provinces.containsKey(city.getProvinceCode()),
                     "City " + city.getCode() + " references non-existent province " + city.getProvinceCode());
         }
@@ -70,7 +64,6 @@ class IndonesiaDataLoaderIntegrationTest {
 
         assertNotNull(districts);
         assertFalse(districts.isEmpty());
-        assertTrue(districts.size() > 0);
 
         Map<Long, City> cities = loader.loadCities();
 
@@ -78,8 +71,6 @@ class IndonesiaDataLoaderIntegrationTest {
             assertTrue(district.getCode() > 0);
             assertNotNull(district.getName());
             assertFalse(district.getName().trim().isEmpty());
-            assertNotNull(district.getLatitude());
-            assertNotNull(district.getLongitude());
             
             assertTrue(cities.containsKey(district.getCityCode()),
                     "District " + district.getCode() + " references non-existent city " + district.getCityCode());
@@ -95,7 +86,6 @@ class IndonesiaDataLoaderIntegrationTest {
 
         assertNotNull(villages);
         assertFalse(villages.isEmpty());
-        assertTrue(villages.size() > 0);
 
         Map<Long, District> districts = loader.loadDistricts();
 
@@ -103,8 +93,6 @@ class IndonesiaDataLoaderIntegrationTest {
             assertTrue(village.getCode() > 0);
             assertNotNull(village.getName());
             assertFalse(village.getName().trim().isEmpty());
-            assertNotNull(village.getLatitude());
-            assertNotNull(village.getLongitude());
             
             assertTrue(districts.containsKey(village.getDistrictCode()),
                     "Village " + village.getCode() + " references non-existent district " + village.getDistrictCode());

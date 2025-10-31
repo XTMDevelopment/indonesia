@@ -17,6 +17,7 @@ class CityTest {
         assertEquals(106.8318, city.getLongitude(), 0.0001);
     }
 
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void testEquals() {
         City city1 = new City(1101L, 11L, "Jakarta Pusat", -6.1818, 106.8318);
@@ -26,7 +27,7 @@ class CityTest {
         assertEquals(city1, city2);
         assertNotEquals(city1, city3);
         assertEquals(city1, city1);
-        assertNotEquals(city1, null);
+        assertNotEquals(null, city1);
     }
 
     @Test

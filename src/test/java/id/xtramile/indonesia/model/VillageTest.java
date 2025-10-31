@@ -17,6 +17,7 @@ class VillageTest {
         assertEquals(106.8208, village.getLongitude(), 0.0001);
     }
 
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void testEquals() {
         Village village1 = new Village(1101011001L, 110101L, "Gambir", -6.1751, 106.8208);
@@ -26,7 +27,7 @@ class VillageTest {
         assertEquals(village1, village2);
         assertNotEquals(village1, village3);
         assertEquals(village1, village1);
-        assertNotEquals(village1, null);
+        assertNotEquals(null, village1);
     }
 
     @Test

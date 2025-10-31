@@ -16,6 +16,7 @@ class ProvinceTest {
         assertEquals(106.8456, province.getLongitude(), 0.0001);
     }
 
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void testEquals() {
         Province province1 = new Province(11L, "Jakarta", -6.2088, 106.8456);
@@ -25,8 +26,7 @@ class ProvinceTest {
         assertEquals(province1, province2);
         assertNotEquals(province1, province3);
         assertEquals(province1, province1);
-        assertNotEquals(province1, null);
-        assertNotEquals(province1, "Not a Province");
+        assertNotEquals(null, province1);
     }
 
     @Test

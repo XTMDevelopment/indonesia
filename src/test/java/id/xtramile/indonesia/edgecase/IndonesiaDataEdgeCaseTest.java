@@ -7,7 +7,6 @@ import id.xtramile.indonesia.model.City;
 import id.xtramile.indonesia.model.District;
 import id.xtramile.indonesia.model.Province;
 import id.xtramile.indonesia.model.Village;
-import id.xtramile.indonesia.service.DefaultIndonesiaService;
 import id.xtramile.indonesia.util.IndonesiaServiceFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,10 +87,10 @@ class IndonesiaDataEdgeCaseTest {
         assertFalse(service.findProvince(null).isPresent());
         
         assertNotNull(service.searchProvinces(null));
-        assertTrue(service.searchProvinces(null).size() > 0);
+        assertFalse(service.searchProvinces(null).isEmpty());
         
         assertNotNull(service.searchProvinces(""));
-        assertTrue(service.searchProvinces("").size() > 0);
+        assertFalse(service.searchProvinces("").isEmpty());
     }
 
     @Test
@@ -112,6 +111,7 @@ class IndonesiaDataEdgeCaseTest {
         for (int i = 0; i < 1000; i++) {
             sb.append("A");
         }
+
         String veryLongName = sb.toString();
         Province province = new Province(999L, veryLongName, -6.2088, 106.8456);
         
@@ -128,17 +128,8 @@ class IndonesiaDataEdgeCaseTest {
 
     @Test
     void testExtremeCoordinates() {
-        Province northPole = new Province(1L, "North Pole", 90.0, 0.0);
-        Province southPole = new Province(2L, "South Pole", -90.0, 0.0);
-        Province dateLine = new Province(3L, "Date Line", 0.0, 180.0);
-        Province negativeDateLine = new Province(4L, "Negative Date Line", 0.0, -180.0);
-        
-        Map<Long, Province> provinces = new HashMap<>();
-        provinces.put(1L, northPole);
-        provinces.put(2L, southPole);
-        provinces.put(3L, dateLine);
-        provinces.put(4L, negativeDateLine);
-        
+        Map<Long, Province> provinces = getProvinceMap();
+
         cache.putProvinces(provinces);
         
         assertEquals(4, cache.getProvinces().size());
@@ -251,6 +242,7 @@ class IndonesiaDataEdgeCaseTest {
         assertTrue(cache.isLoaded());
     }
 
+    @SuppressWarnings("ConstantValue")
     @Test
     void testVerySmallCode() {
         long smallCode = 11L;
@@ -317,5 +309,19 @@ class IndonesiaDataEdgeCaseTest {
         assertTrue(cache.getDistricts().isEmpty());
         assertTrue(cache.getVillages().isEmpty());
         assertEquals(0, cache.getStats().getProvinceCount());
+    }
+
+    private static Map<Long, Province> getProvinceMap() {
+        Province northPole = new Province(1L, "North Pole", 90.0, 0.0);
+        Province southPole = new Province(2L, "South Pole", -90.0, 0.0);
+        Province dateLine = new Province(3L, "Date Line", 0.0, 180.0);
+        Province negativeDateLine = new Province(4L, "Negative Date Line", 0.0, -180.0);
+
+        Map<Long, Province> provinces = new HashMap<>();
+        provinces.put(1L, northPole);
+        provinces.put(2L, southPole);
+        provinces.put(3L, dateLine);
+        provinces.put(4L, negativeDateLine);
+        return provinces;
     }
 }

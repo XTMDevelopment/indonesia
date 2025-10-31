@@ -17,6 +17,7 @@ class DistrictTest {
         assertEquals(106.8208, district.getLongitude(), 0.0001);
     }
 
+    @SuppressWarnings("EqualsWithItself")
     @Test
     void testEquals() {
         District district1 = new District(110101L, 1101L, "Gambir", -6.1751, 106.8208);
@@ -26,7 +27,7 @@ class DistrictTest {
         assertEquals(district1, district2);
         assertNotEquals(district1, district3);
         assertEquals(district1, district1);
-        assertNotEquals(district1, null);
+        assertNotEquals(null, district1);
     }
 
     @Test

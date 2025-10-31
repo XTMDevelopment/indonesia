@@ -4,10 +4,8 @@ import id.xtramile.indonesia.IndonesiaDataCache;
 import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.IndonesiaService;
 import id.xtramile.indonesia.cache.InMemoryIndonesiaCache;
-import id.xtramile.indonesia.exception.DataLoadException;
 import id.xtramile.indonesia.loader.CsvIndonesiaDataLoader;
 import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.service.DefaultIndonesiaService;
 import id.xtramile.indonesia.util.IndonesiaServiceFactory;
 import org.junit.jupiter.api.Test;
 
@@ -134,8 +132,8 @@ class IndonesiaDataErrorHandlingTest {
         assertNotNull(service.searchCities(null));
         assertNotNull(service.searchDistricts(null));
         assertNotNull(service.searchVillages(null));
-        
-        assertTrue(service.searchProvinces(null).size() > 0);
+
+        assertFalse(service.searchProvinces(null).isEmpty());
     }
 
     @Test
@@ -146,8 +144,8 @@ class IndonesiaDataErrorHandlingTest {
         assertNotNull(service.searchCities(""));
         assertNotNull(service.searchDistricts(""));
         assertNotNull(service.searchVillages(""));
-        
-        assertTrue(service.searchProvinces("").size() > 0);
+
+        assertFalse(service.searchProvinces("").isEmpty());
     }
 
     @Test
@@ -177,17 +175,8 @@ class IndonesiaDataErrorHandlingTest {
     @Test
     void testCacheWithNullMapShouldThrowException() {
         IndonesiaDataCache cache = new InMemoryIndonesiaCache();
-        
-        // Note: This test documents expected behavior
-        // put methods may throw NullPointerException if null is passed
-        assertThrows(Exception.class, () -> {
-            try {
-                cache.putProvinces(null);
-            } catch (NullPointerException e) {
-                // Expected
-                throw e;
-            }
-        });
+
+        assertThrows(Exception.class, () -> cache.putProvinces(null));
     }
 
     @Test

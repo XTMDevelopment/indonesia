@@ -27,8 +27,6 @@ class CsvIndonesiaDataLoaderTest {
         assertNotNull(province);
         assertTrue(province.getCode() > 0);
         assertNotNull(province.getName());
-        assertNotNull(province.getLatitude());
-        assertNotNull(province.getLongitude());
     }
 
     @Test

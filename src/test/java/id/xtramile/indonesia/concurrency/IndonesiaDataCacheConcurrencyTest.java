@@ -36,19 +36,22 @@ class IndonesiaDataCacheConcurrencyTest {
             executor.submit(() -> {
                 try {
                     cache.putProvinces(provinces);
+
                     Map<Long, Province> retrieved = cache.getProvinces();
                     if (retrieved.size() == provinces.size()) {
                         successCount.incrementAndGet();
                     }
+
                 } catch (Exception e) {
                     fail("Exception during concurrent operation: " + e.getMessage());
+
                 } finally {
                     latch.countDown();
                 }
             });
         }
         
-        latch.await(5, TimeUnit.SECONDS);
+        boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertTrue(successCount.get() > 0);
@@ -75,17 +78,20 @@ class IndonesiaDataCacheConcurrencyTest {
                         cache.getCities();
                         cache.getCitiesByProvince();
                         cache.getStats();
+
                         readCount.incrementAndGet();
                     }
+
                 } catch (Exception e) {
                     fail("Exception during concurrent read: " + e.getMessage());
+
                 } finally {
                     latch.countDown();
                 }
             });
         }
-        
-        latch.await(5, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertEquals(200, readCount.get());
@@ -107,15 +113,17 @@ class IndonesiaDataCacheConcurrencyTest {
                 try {
                     cache.refresh();
                     refreshCount.incrementAndGet();
+
                 } catch (Exception e) {
                     fail("Exception during concurrent refresh: " + e.getMessage());
+
                 } finally {
                     latch.countDown();
                 }
             });
         }
-        
-        latch.await(3, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertEquals(5, refreshCount.get());
@@ -131,6 +139,7 @@ class IndonesiaDataCacheConcurrencyTest {
         executor.submit(() -> {
             try {
                 cache.putProvinces(createTestProvinces(10));
+
             } finally {
                 latch.countDown();
             }
@@ -139,6 +148,7 @@ class IndonesiaDataCacheConcurrencyTest {
         executor.submit(() -> {
             try {
                 cache.putCities(createTestCities(20));
+
             } finally {
                 latch.countDown();
             }
@@ -147,6 +157,7 @@ class IndonesiaDataCacheConcurrencyTest {
         executor.submit(() -> {
             try {
                 cache.putDistricts(createTestDistricts(30));
+
             } finally {
                 latch.countDown();
             }
@@ -155,12 +166,13 @@ class IndonesiaDataCacheConcurrencyTest {
         executor.submit(() -> {
             try {
                 cache.putVillages(createTestVillages(40));
+
             } finally {
                 latch.countDown();
             }
         });
-        
-        latch.await(3, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertTrue(cache.isLoaded());
@@ -175,32 +187,36 @@ class IndonesiaDataCacheConcurrencyTest {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(10);
         AtomicInteger readSuccess = new AtomicInteger(0);
-        
-        // Start writing thread
+
         executor.submit(() -> {
             for (int i = 0; i < 10; i++) {
                 cache.putProvinces(createTestProvinces(10 + i));
+
                 try {
                     Thread.sleep(10);
+
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
             }
         });
-        
-        // Start multiple reading threads
+
         for (int i = 0; i < 9; i++) {
             executor.submit(() -> {
                 try {
                     for (int j = 0; j < 20; j++) {
                         Map<Long, Province> result = cache.getProvinces();
+
                         if (result != null) {
                             readSuccess.incrementAndGet();
                         }
+
                         Thread.sleep(5);
+
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+
                 } finally {
                     latch.countDown();
                 }
@@ -210,14 +226,16 @@ class IndonesiaDataCacheConcurrencyTest {
         executor.submit(() -> {
             try {
                 Thread.sleep(200);
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+
             } finally {
                 latch.countDown();
             }
         });
-        
-        latch.await(5, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertTrue(readSuccess.get() > 0);
@@ -238,17 +256,20 @@ class IndonesiaDataCacheConcurrencyTest {
                     for (int j = 0; j < 50; j++) {
                         int provinceCount = cache.getStats().getProvinceCount();
                         statsValues.add(provinceCount);
-                        cache.getStats().getCityCount();
+
+                        int ignored = cache.getStats().getCityCount();
+
                     }
                 } catch (Exception e) {
                     fail("Exception accessing stats: " + e.getMessage());
+
                 } finally {
                     latch.countDown();
                 }
             });
         }
-        
-        latch.await(3, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertEquals(500, statsValues.size());
@@ -269,24 +290,28 @@ class IndonesiaDataCacheConcurrencyTest {
                 try {
                     for (int j = 0; j < 20; j++) {
                         Map<Long, List<City>> citiesByProvince = cache.getCitiesByProvince();
+
                         if (citiesByProvince != null) {
                             int total = citiesByProvince.values().stream()
                                     .mapToInt(List::size)
                                     .sum();
+
                             if (total == cities.size()) {
                                 successCount.incrementAndGet();
                             }
+
                         }
                     }
                 } catch (Exception e) {
                     fail("Exception accessing indexed maps: " + e.getMessage());
+
                 } finally {
                     latch.countDown();
                 }
             });
         }
-        
-        latch.await(3, TimeUnit.SECONDS);
+
+        boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
         
         assertTrue(successCount.get() > 0);
@@ -294,44 +319,56 @@ class IndonesiaDataCacheConcurrencyTest {
 
     private Map<Long, Province> createTestProvinces(int count) {
         Map<Long, Province> provinces = new HashMap<>();
+
         for (int i = 1; i <= count; i++) {
-            long code = i;
-            Province province = new Province(code, "Province " + i, -6.0 + i * 0.1, 106.0 + i * 0.1);
-            provinces.put(code, province);
+            Province province = new Province(i, "Province " + i, -6.0 + i * 0.1, 106.0 + i * 0.1);
+            provinces.put((long) i, province);
         }
+
         return provinces;
     }
 
     private Map<Long, City> createTestCities(int count) {
         Map<Long, City> cities = new HashMap<>();
+
         for (int i = 1; i <= count; i++) {
             long code = 1000L + i;
             long provinceCode = (i % 10) + 1;
+
             City city = new City(code, provinceCode, "City " + i, -6.0 + i * 0.01, 106.0 + i * 0.01);
             cities.put(code, city);
         }
+
         return cities;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private Map<Long, District> createTestDistricts(int count) {
         Map<Long, District> districts = new HashMap<>();
+
         for (int i = 1; i <= count; i++) {
             long code = 100000L + i;
             long cityCode = 1000L + (i % 20);
+
             District district = new District(code, cityCode, "District " + i, -6.0 + i * 0.001, 106.0 + i * 0.001);
             districts.put(code, district);
         }
+
         return districts;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private Map<Long, Village> createTestVillages(int count) {
         Map<Long, Village> villages = new HashMap<>();
+
         for (int i = 1; i <= count; i++) {
             long code = 1000000000L + i;
             long districtCode = 100000L + (i % 30);
+
             Village village = new Village(code, districtCode, "Village " + i, -6.0 + i * 0.0001, 106.0 + i * 0.0001);
             villages.put(code, village);
         }
+
         return villages;
     }
 }

@@ -5,6 +5,8 @@ import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.IndonesiaService;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IndonesiaServiceFactoryTest {
@@ -33,6 +35,7 @@ class IndonesiaServiceFactoryTest {
                 NullPointerException.class,
                 () -> IndonesiaServiceFactory.create(null, loader)
         );
+
         assertEquals("Cache cannot be null", exception.getMessage());
     }
 
@@ -44,6 +47,7 @@ class IndonesiaServiceFactoryTest {
                 NullPointerException.class,
                 () -> IndonesiaServiceFactory.create(cache, null)
         );
+
         assertEquals("Loader cannot be null", exception.getMessage());
     }
 
@@ -51,14 +55,16 @@ class IndonesiaServiceFactoryTest {
     void testConstructorThrowsAssertionError() {
         assertThrows(AssertionError.class, () -> {
             try {
-                java.lang.reflect.Constructor<IndonesiaServiceFactory> constructor =
+               Constructor<IndonesiaServiceFactory> constructor =
                         IndonesiaServiceFactory.class.getDeclaredConstructor();
                 constructor.setAccessible(true);
                 constructor.newInstance();
+
             } catch (Exception e) {
                 if (e.getCause() instanceof AssertionError) {
-                    throw (AssertionError) e.getCause();
+                    throw e.getCause();
                 }
+
                 throw new RuntimeException(e);
             }
         });

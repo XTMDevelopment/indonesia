@@ -80,6 +80,7 @@ class IndonesiaServiceIntegrationTest {
         
         List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
         if (!cities.isEmpty()) {
+
             City city = cities.get(0);
             List<District> districts = service.getDistrictsByCity(city.getCode());
             
@@ -100,8 +101,10 @@ class IndonesiaServiceIntegrationTest {
         
         List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
         if (!cities.isEmpty()) {
+
             List<District> districts = service.getDistrictsByCity(cities.get(0).getCode());
             if (!districts.isEmpty()) {
+
                 District district = districts.get(0);
                 List<Village> villages = service.getVillagesByDistrict(district.getCode());
                 
@@ -120,6 +123,7 @@ class IndonesiaServiceIntegrationTest {
     void testSearchProvincesWithRealData() {
         List<Province> allProvinces = service.getAllProvinces();
         if (!allProvinces.isEmpty()) {
+
             String searchTerm = allProvinces.get(0).getName().substring(0, 3);
             List<Province> results = service.searchProvinces(searchTerm);
             
@@ -136,6 +140,7 @@ class IndonesiaServiceIntegrationTest {
     void testSearchCitiesWithRealData() {
         List<City> allCities = service.getAllCities();
         if (!allCities.isEmpty()) {
+
             String searchTerm = allCities.get(0).getName().substring(0, 3);
             List<City> results = service.searchCities(searchTerm);
             
@@ -152,6 +157,7 @@ class IndonesiaServiceIntegrationTest {
     void testSearchDistrictsWithRealData() {
         List<District> allDistricts = service.getAllDistricts();
         if (!allDistricts.isEmpty()) {
+
             String searchTerm = allDistricts.get(0).getName().substring(0, Math.min(3, allDistricts.get(0).getName().length()));
             List<District> results = service.searchDistricts(searchTerm);
             
@@ -168,6 +174,7 @@ class IndonesiaServiceIntegrationTest {
     void testSearchVillagesWithRealData() {
         List<Village> allVillages = service.getAllVillages();
         if (!allVillages.isEmpty()) {
+
             String searchTerm = allVillages.get(0).getName().substring(0, Math.min(3, allVillages.get(0).getName().length()));
             List<Village> results = service.searchVillages(searchTerm);
             
@@ -184,6 +191,7 @@ class IndonesiaServiceIntegrationTest {
     void testBuildFromProvinceWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             Province province = provinces.get(0);
             Indonesia indonesia = service.buildFrom(province);
             
@@ -199,8 +207,10 @@ class IndonesiaServiceIntegrationTest {
     void testBuildFromCityWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
             if (!cities.isEmpty()) {
+
                 City city = cities.get(0);
                 Indonesia indonesia = service.buildFrom(city);
                 
@@ -218,10 +228,13 @@ class IndonesiaServiceIntegrationTest {
     void testBuildFromDistrictWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
             if (!cities.isEmpty()) {
+
                 List<District> districts = service.getDistrictsByCity(cities.get(0).getCode());
                 if (!districts.isEmpty()) {
+
                     District district = districts.get(0);
                     Indonesia indonesia = service.buildFrom(district);
                     
@@ -240,12 +253,16 @@ class IndonesiaServiceIntegrationTest {
     void testBuildFromVillageWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
             if (!cities.isEmpty()) {
+
                 List<District> districts = service.getDistrictsByCity(cities.get(0).getCode());
                 if (!districts.isEmpty()) {
+
                     List<Village> villages = service.getVillagesByDistrict(districts.get(0).getCode());
                     if (!villages.isEmpty()) {
+
                         Village village = villages.get(0);
                         Indonesia indonesia = service.buildFrom(village);
                         
@@ -265,16 +282,18 @@ class IndonesiaServiceIntegrationTest {
     void testGetVillagesByProvinceWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             Province province = provinces.get(0);
             List<Village> villages = service.getVillagesByProvince(province.getCode());
             
             assertNotNull(villages);
-            
-            // Verify all villages belong to districts in the province
+
             List<City> provinceCities = service.getCitiesByProvince(province.getCode());
             for (City city : provinceCities) {
+
                 List<District> districts = service.getDistrictsByCity(city.getCode());
                 for (District district : districts) {
+
                     List<Village> districtVillages = service.getVillagesByDistrict(district.getCode());
                     for (Village village : districtVillages) {
                         assertTrue(villages.contains(village) || 
@@ -289,8 +308,10 @@ class IndonesiaServiceIntegrationTest {
     void testGetVillagesByCityWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         if (!provinces.isEmpty()) {
+
             List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
             if (!cities.isEmpty()) {
+
                 City city = cities.get(0);
                 List<Village> villages = service.getVillagesByCity(city.getCode());
                 
@@ -298,6 +319,7 @@ class IndonesiaServiceIntegrationTest {
                 
                 List<District> districts = service.getDistrictsByCity(city.getCode());
                 for (District district : districts) {
+
                     List<Village> districtVillages = service.getVillagesByDistrict(district.getCode());
                     for (Village village : districtVillages) {
                         assertTrue(villages.contains(village) || 
@@ -336,6 +358,7 @@ class IndonesiaServiceIntegrationTest {
                 
                 List<District> districts = service.getDistrictsByCity(city.getCode());
                 if (!districts.isEmpty()) {
+
                     District district = districts.get(0);
 
                     assertEquals(city.getCode(), district.getCityCode());
