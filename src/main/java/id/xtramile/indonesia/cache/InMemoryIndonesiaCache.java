@@ -15,93 +15,93 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class InMemoryIndonesiaCache implements IndonesiaDataCache {
 
-    private final Map<String, Province> provinces = new ConcurrentHashMap<>();
-    private final Map<String, City> cities = new ConcurrentHashMap<>();
-    private final Map<String, District> districts = new ConcurrentHashMap<>();
-    private final Map<String, Village> villages = new ConcurrentHashMap<>();
+    private final Map<Integer, Province> provinces = new ConcurrentHashMap<>();
+    private final Map<Integer, City> cities = new ConcurrentHashMap<>();
+    private final Map<Integer, District> districts = new ConcurrentHashMap<>();
+    private final Map<Integer, Village> villages = new ConcurrentHashMap<>();
 
-    private final Map<String, List<City>> citiesByProvince = new ConcurrentHashMap<>();
-    private final Map<String, List<District>> districtsByCity = new ConcurrentHashMap<>();
-    private final Map<String, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
+    private final Map<Integer, List<City>> citiesByProvince = new ConcurrentHashMap<>();
+    private final Map<Integer, List<District>> districtsByCity = new ConcurrentHashMap<>();
+    private final Map<Integer, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
 
     private volatile boolean loaded = false;
     private final AtomicLong lastRefreshTime = new AtomicLong(0);
 
     @Override
-    public void putProvinces(Map<String, Province> provinces) {
+    public void putProvinces(Map<Integer, Province> provinces) {
         this.provinces.clear();
         this.provinces.putAll(provinces);
         updateRefreshTime();
     }
 
     @Override
-    public void putCities(Map<String, City> cities) {
+    public void putCities(Map<Integer, City> cities) {
         this.cities.clear();
         this.cities.putAll(cities);
 
         this.citiesByProvince.clear();
         cities.values().forEach(city ->
-                this.citiesByProvince.computeIfAbsent(String.valueOf(city.getProvinceCode()), k -> new ArrayList<>())
+                this.citiesByProvince.computeIfAbsent(city.getProvinceCode(), k -> new ArrayList<>())
                         .add(city));
         updateRefreshTime();
     }
 
     @Override
-    public void putDistricts(Map<String, District> districts) {
+    public void putDistricts(Map<Integer, District> districts) {
         this.districts.clear();
         this.districts.putAll(districts);
 
         this.districtsByCity.clear();
         districts.values().forEach(district ->
-                this.districtsByCity.computeIfAbsent(String.valueOf(district.getCityCode()), k -> new ArrayList<>())
+                this.districtsByCity.computeIfAbsent(district.getCityCode(), k -> new ArrayList<>())
                         .add(district));
         updateRefreshTime();
     }
 
     @Override
-    public void putVillages(Map<String, Village> villages) {
+    public void putVillages(Map<Integer, Village> villages) {
         this.villages.clear();
         this.villages.putAll(villages);
 
         this.villagesByDistrict.clear();
         villages.values().forEach(village ->
-                this.villagesByDistrict.computeIfAbsent(String.valueOf(village.getDistrictCode()), k -> new ArrayList<>())
+                this.villagesByDistrict.computeIfAbsent(village.getDistrictCode(), k -> new ArrayList<>())
                         .add(village));
         updateRefreshTime();
     }
 
     @Override
-    public Map<String, Province> getProvinces() {
+    public Map<Integer, Province> getProvinces() {
         return new HashMap<>(provinces);
     }
 
     @Override
-    public Map<String, City> getCities() {
+    public Map<Integer, City> getCities() {
         return new HashMap<>(cities);
     }
 
     @Override
-    public Map<String, District> getDistricts() {
+    public Map<Integer, District> getDistricts() {
         return new HashMap<>(districts);
     }
 
     @Override
-    public Map<String, Village> getVillages() {
+    public Map<Integer, Village> getVillages() {
         return new HashMap<>(villages);
     }
 
     @Override
-    public Map<String, List<City>> getCitiesByProvince() {
+    public Map<Integer, List<City>> getCitiesByProvince() {
         return new HashMap<>(citiesByProvince);
     }
 
     @Override
-    public Map<String, List<District>> getDistrictsByCity() {
+    public Map<Integer, List<District>> getDistrictsByCity() {
         return new HashMap<>(districtsByCity);
     }
 
     @Override
-    public Map<String, List<Village>> getVillagesByDistrict() {
+    public Map<Integer, List<Village>> getVillagesByDistrict() {
         return new HashMap<>(villagesByDistrict);
     }
 

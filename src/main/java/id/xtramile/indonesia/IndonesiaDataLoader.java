@@ -7,10 +7,10 @@ import java.util.Map;
 
 public interface IndonesiaDataLoader {
 
-    Map<String, Province> loadProvinces() throws DataLoadException;
-    Map<String, City> loadCities() throws DataLoadException;
-    Map<String, District> loadDistricts() throws DataLoadException;
-    Map<String, Village> loadVillages() throws DataLoadException;
+    Map<Integer, Province> loadProvinces() throws DataLoadException;
+    Map<Integer, City> loadCities() throws DataLoadException;
+    Map<Integer, District> loadDistricts() throws DataLoadException;
+    Map<Integer, Village> loadVillages() throws DataLoadException;
 
     IndonesiaData loadAllData() throws DataLoadException;
 }

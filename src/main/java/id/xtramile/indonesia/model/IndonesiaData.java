@@ -3,31 +3,31 @@ package id.xtramile.indonesia.model;
 import java.util.Map;
 
 public class IndonesiaData {
-    private final Map<String, Province> provinces;
-    private final Map<String, City> cities;
-    private final Map<String, District> districts;
-    private final Map<String, Village> villages;
+    private final Map<Integer, Province> provinces;
+    private final Map<Integer, City> cities;
+    private final Map<Integer, District> districts;
+    private final Map<Integer, Village> villages;
 
-    public IndonesiaData(Map<String, Province> provinces, Map<String, City> cities, Map<String, District> districts, Map<String, Village> villages) {
+    public IndonesiaData(Map<Integer, Province> provinces, Map<Integer, City> cities, Map<Integer, District> districts, Map<Integer, Village> villages) {
         this.provinces = provinces;
         this.cities = cities;
         this.districts = districts;
         this.villages = villages;
     }
 
-    public Map<String, Province> getProvinces() {
+    public Map<Integer, Province> getProvinces() {
         return provinces;
     }
 
-    public Map<String, City> getCities() {
+    public Map<Integer, City> getCities() {
         return cities;
     }
 
-    public Map<String, District> getDistricts() {
+    public Map<Integer, District> getDistricts() {
         return districts;
     }
 
-    public Map<String, Village> getVillages() {
+    public Map<Integer, Village> getVillages() {
         return villages;
     }
 }

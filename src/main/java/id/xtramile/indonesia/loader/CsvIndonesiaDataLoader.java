@@ -17,8 +17,8 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     private static final String DISTRICT_CSV = "/csv/districts.csv";
 
     @Override
-    public Map<String, Province> loadProvinces() throws DataLoadException {
-        Map<String, Province> provinces = new HashMap<>();
+    public Map<Integer, Province> loadProvinces() throws DataLoadException {
+        Map<Integer, Province> provinces = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(PROVINCE_CSV))
@@ -33,7 +33,7 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                         double latitude = Double.parseDouble(line[2]);
                         double longitude = Double.parseDouble(line[3]);
                         Province province = new Province(code, name, latitude, longitude);
-                        provinces.put(String.valueOf(province.getCode()), province);
+                        provinces.put(province.getCode(), province);
                     } catch (NumberFormatException e) {
                         throw new DataLoadException("Failed to parse province data: " + String.join(",", line), e);
                     }
@@ -48,8 +48,8 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<String, City> loadCities() throws DataLoadException {
-        Map<String, City> cities = new HashMap<>();
+    public Map<Integer, City> loadCities() throws DataLoadException {
+        Map<Integer, City> cities = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(CITY_CSV))
@@ -65,7 +65,7 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                         double latitude = Double.parseDouble(line[3]);
                         double longitude = Double.parseDouble(line[4]);
                         City city = new City(code, provinceCode, name, latitude, longitude);
-                        cities.put(String.valueOf(city.getCode()), city);
+                        cities.put(city.getCode(), city);
                     } catch (NumberFormatException e) {
                         throw new DataLoadException("Failed to parse city data: " + String.join(",", line), e);
                     }
@@ -80,8 +80,8 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<String, District> loadDistricts() throws DataLoadException {
-        Map<String, District> districts = new HashMap<>();
+    public Map<Integer, District> loadDistricts() throws DataLoadException {
+        Map<Integer, District> districts = new HashMap<>();
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(DISTRICT_CSV))
@@ -97,7 +97,7 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                         double latitude = Double.parseDouble(line[3]);
                         double longitude = Double.parseDouble(line[4]);
                         District district = new District(code, cityCode, name, latitude, longitude);
-                        districts.put(String.valueOf(district.getCode()), district);
+                        districts.put(district.getCode(), district);
                     } catch (NumberFormatException e) {
                         throw new DataLoadException("Failed to parse district data: " + String.join(",", line), e);
                     }
@@ -112,15 +112,15 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     @Override
-    public Map<String, Village> loadVillages() throws DataLoadException {
-        Map<String, Village> villages = new HashMap<>();
+    public Map<Integer, Village> loadVillages() throws DataLoadException {
+        Map<Integer, Village> villages = new HashMap<>();
         
         try {
             // Load provinces to get province codes dynamically
-            Map<String, Province> provinces = loadProvinces();
+            Map<Integer, Province> provinces = loadProvinces();
             
             // Iterate over province codes to load corresponding village files
-            for (String provinceCode : provinces.keySet()) {
+            for (Integer provinceCode : provinces.keySet()) {
                 String villageCsvPath = "/csv/villages/" + provinceCode + ".csv";
                 
                 try (CSVReader reader = new CSVReader(new InputStreamReader(
@@ -136,7 +136,7 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
                                 double latitude = Double.parseDouble(line[3]);
                                 double longitude = Double.parseDouble(line[4]);
                                 Village village = new Village(code, districtCode, name, latitude, longitude);
-                                villages.put(String.valueOf(village.getCode()), village);
+                                villages.put(village.getCode(), village);
                             } catch (NumberFormatException e) {
                                 throw new DataLoadException("Failed to parse village data: " + String.join(",", line), e);
                             }

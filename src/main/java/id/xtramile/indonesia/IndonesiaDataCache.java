@@ -11,19 +11,19 @@ import java.util.Map;
 
 public interface IndonesiaDataCache {
 
-    void putProvinces(Map<String, Province> provinces);
-    void putCities(Map<String, City> cities);
-    void putDistricts(Map<String, District> districts);
-    void putVillages(Map<String, Village> villages);
+    void putProvinces(Map<Integer, Province> provinces);
+    void putCities(Map<Integer, City> cities);
+    void putDistricts(Map<Integer, District> districts);
+    void putVillages(Map<Integer, Village> villages);
 
-    Map<String, Province> getProvinces();
-    Map<String, City> getCities();
-    Map<String, District> getDistricts();
-    Map<String, Village> getVillages();
+    Map<Integer, Province> getProvinces();
+    Map<Integer, City> getCities();
+    Map<Integer, District> getDistricts();
+    Map<Integer, Village> getVillages();
 
-    Map<String, List<City>> getCitiesByProvince();
-    Map<String, List<District>> getDistrictsByCity();
-    Map<String, List<Village>> getVillagesByDistrict();
+    Map<Integer, List<City>> getCitiesByProvince();
+    Map<Integer, List<District>> getDistrictsByCity();
+    Map<Integer, List<Village>> getVillagesByDistrict();
 
     void refresh();
     boolean isLoaded();
