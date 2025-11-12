@@ -36,7 +36,18 @@ mvn clean install
 mvn test
 ```
 
+## Documentation
+
+- **[HOW-TO-USE.md](HOW-TO-USE.md)** - Comprehensive guide on using the library, including:
+  - Using the default service implementation
+  - Creating custom cache implementations
+  - Creating custom loader implementations
+  - Creating custom service implementations
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to the project
+
 ## Usage
+
+Quick start example:
 
 ```java
 import id.xtramile.indonesia.util.IndonesiaServiceFactory;
@@ -57,6 +68,8 @@ List<Province> results = service.searchProvinces("Jakarta");
 // Build hierarchical data from any entity
 Indonesia indonesia = service.buildFrom(province.get());
 ```
+
+For more detailed usage examples and advanced features, see [HOW-TO-USE.md](HOW-TO-USE.md).
 
 ## License
 
