@@ -11,11 +11,34 @@ import id.xtramile.indonesia.model.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Default implementation of IndonesiaService.
+ * <p>
+ * This service provides query capabilities for Indonesia administrative data using
+ * a cache and data loader. Data is automatically loaded during construction and can
+ * be refreshed on demand. The service supports searching, finding, and hierarchical
+ * queries across all administrative levels.
+ *
+ * @author Rigsto
+ */
 public class DefaultIndonesiaService implements IndonesiaService {
 
+    /**
+     * The cache for storing administrative data.
+     */
     private final IndonesiaDataCache cache;
+    /**
+     * The loader for loading administrative data.
+     */
     private final IndonesiaDataLoader loader;
 
+    /**
+     * Data is automatically loaded during construction.
+     *
+     * @param cache  cache implementation to use
+     * @param loader data loader implementation to use
+     * @throws DataLoadException if data cannot be loaded during initialization
+     */
     public DefaultIndonesiaService(IndonesiaDataCache cache, IndonesiaDataLoader loader) {
         this.cache = cache;
         this.loader = loader;
@@ -217,6 +240,9 @@ public class DefaultIndonesiaService implements IndonesiaService {
         return cache.getStats();
     }
 
+    /**
+     * @throws DataLoadException if data cannot be loaded
+     */
     private void loadData() throws DataLoadException {
         cache.putProvinces(loader.loadProvinces());
         cache.putCities(loader.loadCities());
@@ -224,10 +250,18 @@ public class DefaultIndonesiaService implements IndonesiaService {
         cache.putVillages(loader.loadVillages());
     }
 
+    /**
+     * @param query query string to check
+     * @return true if the query is null or empty after trimming
+     */
     private boolean isQueryEmpty(String query) {
         return query == null || query.trim().isEmpty();
     }
 
+    /**
+     * @param districts list of districts to collect villages from
+     * @return list of all villages in the specified districts
+     */
     private List<Village> collectVillagesFromDistricts(List<District> districts) {
         if (districts.isEmpty()) {
             return Collections.emptyList();

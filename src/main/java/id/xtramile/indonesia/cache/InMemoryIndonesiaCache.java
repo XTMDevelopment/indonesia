@@ -13,6 +13,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Thread-safe in-memory implementation of IndonesiaDataCache.
+ * <p>
+ * This implementation uses ConcurrentHashMap for thread-safe storage and maintains
+ * hierarchical indexes for efficient lookups. All returned maps are defensive copies
+ * to prevent external modification of the cache.
+ *
+ * @author Rigsto
+ */
 public class InMemoryIndonesiaCache implements IndonesiaDataCache {
 
     private final Map<Long, Province> provinces = new ConcurrentHashMap<>();

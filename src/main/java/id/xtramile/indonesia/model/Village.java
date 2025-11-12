@@ -1,12 +1,42 @@
 package id.xtramile.indonesia.model;
 
+/**
+ * Represents a village (kelurahan/desa) in Indonesia.
+ * <p>
+ * A village is the fourth-level administrative division, belonging to a district.
+ * Each village has a unique code, name, parent district code, and geographic coordinates.
+ *
+ * @author Rigsto
+ */
 public class Village {
+    /**
+     * The unique village code (10 digits).
+     */
     private final long code;
+    /**
+     * The code of the parent district.
+     */
     private final long districtCode;
+    /**
+     * The name of the village.
+     */
     private final String name;
+    /**
+     * The latitude coordinate of the village.
+     */
     private final double latitude;
+    /**
+     * The longitude coordinate of the village.
+     */
     private final double longitude;
 
+    /**
+     * @param code         unique village code
+     * @param districtCode parent district code
+     * @param name         village name
+     * @param latitude     latitude coordinate
+     * @param longitude    longitude coordinate
+     */
     public Village(long code, long districtCode, String name, double latitude, double longitude) {
         this.code = code;
         this.districtCode = districtCode;

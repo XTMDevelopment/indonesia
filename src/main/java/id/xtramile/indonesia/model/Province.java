@@ -1,11 +1,37 @@
 package id.xtramile.indonesia.model;
 
+/**
+ * Represents a province in Indonesia.
+ * <p>
+ * A province is the first-level administrative division in Indonesia.
+ * Each province has a unique code, name, and geographic coordinates.
+ *
+ * @author Rigsto
+ */
 public class Province {
+    /**
+     * The unique province code (2 digits).
+     */
     private final long code;
+    /**
+     * The name of the province.
+     */
     private final String name;
+    /**
+     * The latitude coordinate of the province.
+     */
     private final double latitude;
+    /**
+     * The longitude coordinate of the province.
+     */
     private final double longitude;
 
+    /**
+     * @param code      unique province code
+     * @param name      province name
+     * @param latitude  latitude coordinate
+     * @param longitude longitude coordinate
+     */
     public Province(long code, String name, double latitude, double longitude) {
         this.code = code;
         this.name = name;

@@ -11,6 +11,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * CSV-based implementation of IndonesiaDataLoader.
+ * <p>
+ * Loads Indonesia administrative data from CSV files located in the classpath.
+ * The CSV files are expected to be in the /csv directory with specific naming conventions:
+ * <ul>
+ *   <li>provinces.csv - contains province data</li>
+ *   <li>cities.csv - contains city data</li>
+ *   <li>districts.csv - contains district data</li>
+ *   <li>villages/{provinceCode}.csv - contains village data per province</li>
+ * </ul>
+ *
+ * @author Rigsto
+ */
 public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 
     @Override
@@ -189,6 +203,10 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
         );
     }
 
+    /**
+     * @param line CSV line array
+     * @return array containing [latitude, longitude], or null if parsing fails
+     */
     private double[] parseCoordinates(String[] line) {
         if (line.length < Constant.CITY_CSV_COLUMN_COUNT) {
             return null;
@@ -209,6 +227,12 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
         }
     }
 
+    /**
+     * Province CSV format has coordinates at different positions than other entities.
+     *
+     * @param line CSV line array
+     * @return array containing [latitude, longitude], or null if parsing fails
+     */
     private double[] parseCoordinatesForProvince(String[] line) {
         if (line.length < Constant.PROVINCE_CSV_COLUMN_COUNT) {
             return null;
