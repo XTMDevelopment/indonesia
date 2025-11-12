@@ -24,6 +24,38 @@ This library is tested and compatible with:
 - Java 17
 - Java 21
 
+## Installation
+
+Add the following dependency to your project:
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>id.xtramile</groupId>
+    <artifactId>indonesia</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
+### Gradle
+
+```gradle
+implementation 'id.xtramile:indonesia:1.0'
+```
+
+### SBT
+
+```scala
+libraryDependencies += "id.xtramile" % "indonesia" % "1.0"
+```
+
+### Ivy
+
+```xml
+<dependency org="id.xtramile" name="indonesia" rev="1.0" />
+```
+
 ## Building
 
 ```bash
