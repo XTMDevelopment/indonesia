@@ -204,8 +204,10 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     /**
-     * @param line CSV line array
-     * @return array containing [latitude, longitude], or null if parsing fails
+     * Parses latitude and longitude coordinates from a CSV line.
+     *
+     * @param line the CSV line array
+     * @return an array containing [latitude, longitude], or null if parsing fails
      */
     private double[] parseCoordinates(String[] line) {
         if (line.length < Constant.CITY_CSV_COLUMN_COUNT) {
@@ -228,10 +230,11 @@ public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
     }
 
     /**
+     * Parses latitude and longitude coordinates from a province CSV line.
      * Province CSV format has coordinates at different positions than other entities.
      *
-     * @param line CSV line array
-     * @return array containing [latitude, longitude], or null if parsing fails
+     * @param line the CSV line array
+     * @return an array containing [latitude, longitude], or null if parsing fails
      */
     private double[] parseCoordinatesForProvince(String[] line) {
         if (line.length < Constant.PROVINCE_CSV_COLUMN_COUNT) {

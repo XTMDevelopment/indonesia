@@ -31,11 +31,13 @@ public class City {
     private final double longitude;
 
     /**
-     * @param code         unique city code
-     * @param provinceCode parent province code
-     * @param name         city name
-     * @param latitude     latitude coordinate
-     * @param longitude    longitude coordinate
+     * Constructs a new City.
+     *
+     * @param code         the unique city code
+     * @param provinceCode the code of the parent province
+     * @param name         the name of the city
+     * @param latitude     the latitude coordinate
+     * @param longitude    the longitude coordinate
      */
     public City(long code, long provinceCode, String name, double latitude, double longitude) {
         this.code = code;
@@ -45,22 +47,47 @@ public class City {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the city code.
+     *
+     * @return the city code
+     */
     public long getCode() {
         return code;
     }
 
+    /**
+     * Gets the parent province code.
+     *
+     * @return the province code
+     */
     public long getProvinceCode() {
         return provinceCode;
     }
 
+    /**
+     * Gets the city name.
+     *
+     * @return the city name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the latitude coordinate.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets the longitude coordinate.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }

@@ -27,10 +27,12 @@ public class Indonesia {
     private final Village village;
 
     /**
-     * @param province province (may be null)
-     * @param city     city (may be null)
-     * @param district district (may be null)
-     * @param village  village (may be null)
+     * Constructs a new Indonesia object with the complete administrative hierarchy.
+     *
+     * @param province the province (may be null)
+     * @param city     the city (may be null)
+     * @param district the district (may be null)
+     * @param village  the village (may be null)
      */
     public Indonesia(Province province, City city, District district, Village village) {
         this.province = province;
@@ -40,28 +42,36 @@ public class Indonesia {
     }
 
     /**
-     * @return province, or null if not set
+     * Gets the province.
+     *
+     * @return the province, or null if not set
      */
     public Province getProvince() {
         return province;
     }
 
     /**
-     * @return city, or null if not set
+     * Gets the city.
+     *
+     * @return the city, or null if not set
      */
     public City getCity() {
         return city;
     }
 
     /**
-     * @return district, or null if not set
+     * Gets the district.
+     *
+     * @return the district, or null if not set
      */
     public District getDistrict() {
         return district;
     }
 
     /**
-     * @return village, or null if not set
+     * Gets the village.
+     *
+     * @return the village, or null if not set
      */
     public Village getVillage() {
         return village;

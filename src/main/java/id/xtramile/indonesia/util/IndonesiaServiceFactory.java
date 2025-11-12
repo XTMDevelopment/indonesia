@@ -22,9 +22,11 @@ public final class IndonesiaServiceFactory {
     }
 
     /**
+     * Creates a default IndonesiaService instance.
+     * <p>
      * Uses InMemoryIndonesiaCache and CsvIndonesiaDataLoader as default implementations.
      *
-     * @return new IndonesiaService instance with default configurations
+     * @return a new IndonesiaService instance with default configurations
      */
     public static IndonesiaService createDefault() {
         IndonesiaDataCache cache = new InMemoryIndonesiaCache();
@@ -33,9 +35,11 @@ public final class IndonesiaServiceFactory {
     }
 
     /**
-     * @param cache  cache implementation to use (must not be null)
-     * @param loader data loader implementation to use (must not be null)
-     * @return new IndonesiaService instance with the specified cache and loader
+     * Creates an IndonesiaService instance with custom cache and loader.
+     *
+     * @param cache  the cache implementation to use (must not be null)
+     * @param loader the data loader implementation to use (must not be null)
+     * @return a new IndonesiaService instance with the specified cache and loader
      * @throws NullPointerException if cache or loader is null
      */
     public static IndonesiaService create(IndonesiaDataCache cache, IndonesiaDataLoader loader) {

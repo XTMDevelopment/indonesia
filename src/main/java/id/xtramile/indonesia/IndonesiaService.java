@@ -18,147 +18,186 @@ import java.util.Optional;
 public interface IndonesiaService {
 
     /**
-     * @param provinceCode province code
-     * @return Optional containing the Province if found
+     * Finds a province by its code.
+     *
+     * @param provinceCode the province code to search for
+     * @return an Optional containing the Province if found, empty otherwise
      */
     Optional<Province> findProvince(Long provinceCode);
 
     /**
-     * @return list of all provinces
+     * Retrieves all provinces.
+     *
+     * @return a list of all provinces
      */
     List<Province> getAllProvinces();
 
     /**
-     * Case-insensitive partial match by name.
+     * Searches for provinces by name (case-insensitive partial match).
      *
-     * @param query search query string
-     * @return list of matching provinces, or all provinces if query is empty
+     * @param query the search query string
+     * @return a list of provinces matching the query, or all provinces if query is empty
      */
     List<Province> searchProvinces(String query);
 
     /**
-     * @param cityCode city code
-     * @return Optional containing the City if found
+     * Finds a city by its code.
+     *
+     * @param cityCode the city code to search for
+     * @return an Optional containing the City if found, empty otherwise
      */
     Optional<City> findCity(Long cityCode);
 
     /**
-     * @param provinceCode province code
-     * @return list of cities in the specified province
+     * Retrieves all cities within a specific province.
+     *
+     * @param provinceCode the province code
+     * @return a list of cities in the specified province
      */
     List<City> getCitiesByProvince(Long provinceCode);
 
     /**
-     * @return list of all cities
+     * Retrieves all cities.
+     *
+     * @return a list of all cities
      */
     List<City> getAllCities();
 
     /**
-     * Case-insensitive partial match by name.
+     * Searches for cities by name (case-insensitive partial match).
      *
-     * @param query search query string
-     * @return list of matching cities, or all cities if query is empty
+     * @param query the search query string
+     * @return a list of cities matching the query, or all cities if query is empty
      */
     List<City> searchCities(String query);
 
     /**
-     * @param districtCode district code
-     * @return Optional containing the District if found
+     * Finds a district by its code.
+     *
+     * @param districtCode the district code to search for
+     * @return an Optional containing the District if found, empty otherwise
      */
     Optional<District> findDistrict(Long districtCode);
 
     /**
-     * @param cityCode city code
-     * @return list of districts in the specified city
+     * Retrieves all districts within a specific city.
+     *
+     * @param cityCode the city code
+     * @return a list of districts in the specified city
      */
     List<District> getDistrictsByCity(Long cityCode);
 
     /**
-     * @return list of all districts
+     * Retrieves all districts.
+     *
+     * @return a list of all districts
      */
     List<District> getAllDistricts();
 
     /**
-     * Case-insensitive partial match by name.
+     * Searches for districts by name (case-insensitive partial match).
      *
-     * @param query search query string
-     * @return list of matching districts, or all districts if query is empty
+     * @param query the search query string
+     * @return a list of districts matching the query, or all districts if query is empty
      */
     List<District> searchDistricts(String query);
 
     /**
-     * @param villageCode village code
-     * @return Optional containing the Village if found
+     * Finds a village by its code.
+     *
+     * @param villageCode the village code to search for
+     * @return an Optional containing the Village if found, empty otherwise
      */
     Optional<Village> findVillage(Long villageCode);
 
     /**
-     * @param districtCode district code
-     * @return list of villages in the specified district
+     * Retrieves all villages within a specific district.
+     *
+     * @param districtCode the district code
+     * @return a list of villages in the specified district
      */
     List<Village> getVillagesByDistrict(Long districtCode);
 
     /**
-     * @return list of all villages
+     * Retrieves all villages.
+     *
+     * @return a list of all villages
      */
     List<Village> getAllVillages();
 
     /**
-     * Case-insensitive partial match by name.
+     * Searches for villages by name (case-insensitive partial match).
      *
-     * @param query search query string
-     * @return list of matching villages, or all villages if query is empty
+     * @param query the search query string
+     * @return a list of villages matching the query, or all villages if query is empty
      */
     List<Village> searchVillages(String query);
 
     /**
-     * @param provinceCode province code
-     * @return list of villages in the specified province
+     * Retrieves all villages within a specific province.
+     *
+     * @param provinceCode the province code
+     * @return a list of villages in the specified province
      */
     List<Village> getVillagesByProvince(Long provinceCode);
 
     /**
-     * @param cityCode city code
-     * @return list of villages in the specified city
+     * Retrieves all villages within a specific city.
+     *
+     * @param cityCode the city code
+     * @return a list of villages in the specified city
      */
     List<Village> getVillagesByCity(Long cityCode);
 
     /**
-     * @param province province to build from
-     * @return Indonesia object with only the province populated
+     * Builds an Indonesia object from a province, with only the province populated.
+     *
+     * @param province the province to build from
+     * @return an Indonesia object containing the province
      */
     Indonesia buildFrom(Province province);
 
     /**
-     * @param city city to build from
-     * @return Indonesia object with province and city populated
+     * Builds an Indonesia object from a city, including its parent province.
+     *
+     * @param city the city to build from
+     * @return an Indonesia object containing the province and city
      */
     Indonesia buildFrom(City city);
 
     /**
-     * @param district district to build from
-     * @return Indonesia object with province, city, and district populated
+     * Builds an Indonesia object from a district, including its parent province and city.
+     *
+     * @param district the district to build from
+     * @return an Indonesia object containing the province, city, and district
      */
     Indonesia buildFrom(District district);
 
     /**
-     * @param village village to build from
-     * @return Indonesia object with complete hierarchy (province, city, district, village)
+     * Builds a complete Indonesia object from a village, including all parent administrative units.
+     *
+     * @param village the village to build from
+     * @return an Indonesia object containing the complete hierarchy (province, city, district, village)
      */
     Indonesia buildFrom(Village village);
 
     /**
-     * Clears the cache and reloads all administrative data.
+     * Refreshes the data by reloading from the data source.
+     * This clears the cache and reloads all administrative data.
      */
     void refreshData();
 
     /**
-     * @return true if data is loaded
+     * Checks if data has been loaded into the service.
+     *
+     * @return true if data is loaded, false otherwise
      */
     boolean isDataLoaded();
 
     /**
-     * @return CacheStats with counts and last refresh time
+     * Retrieves cache statistics including counts and last refresh time.
+     *
+     * @return CacheStats object with cache information
      */
     CacheStats getCacheStats();
 }

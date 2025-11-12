@@ -27,10 +27,12 @@ public class Province {
     private final double longitude;
 
     /**
-     * @param code      unique province code
-     * @param name      province name
-     * @param latitude  latitude coordinate
-     * @param longitude longitude coordinate
+     * Constructs a new Province.
+     *
+     * @param code      the unique province code
+     * @param name      the name of the province
+     * @param latitude  the latitude coordinate
+     * @param longitude the longitude coordinate
      */
     public Province(long code, String name, double latitude, double longitude) {
         this.code = code;
@@ -39,18 +41,38 @@ public class Province {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the province code.
+     *
+     * @return the province code
+     */
     public long getCode() {
         return code;
     }
 
+    /**
+     * Gets the province name.
+     *
+     * @return the province name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the latitude coordinate.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets the longitude coordinate.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }

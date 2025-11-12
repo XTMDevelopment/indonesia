@@ -30,11 +30,13 @@ public class CacheStats {
     private final long lastRefreshTime;
 
     /**
-     * @param provinceCount   number of provinces
-     * @param cityCount       number of cities
-     * @param districtCount   number of districts
-     * @param villageCount    number of villages
-     * @param lastRefreshTime last refresh timestamp in milliseconds
+     * Constructs a new CacheStats object.
+     *
+     * @param provinceCount   the number of provinces
+     * @param cityCount       the number of cities
+     * @param districtCount   the number of districts
+     * @param villageCount    the number of villages
+     * @param lastRefreshTime the last refresh timestamp in milliseconds
      */
     public CacheStats(int provinceCount, int cityCount, int districtCount, int villageCount, long lastRefreshTime) {
         this.provinceCount = provinceCount;
@@ -44,24 +46,46 @@ public class CacheStats {
         this.lastRefreshTime = lastRefreshTime;
     }
 
+    /**
+     * Gets the number of provinces in the cache.
+     *
+     * @return the province count
+     */
     public int getProvinceCount() {
         return provinceCount;
     }
 
+    /**
+     * Gets the number of cities in the cache.
+     *
+     * @return the city count
+     */
     public int getCityCount() {
         return cityCount;
     }
 
+    /**
+     * Gets the number of districts in the cache.
+     *
+     * @return the district count
+     */
     public int getDistrictCount() {
         return districtCount;
     }
 
+    /**
+     * Gets the number of villages in the cache.
+     *
+     * @return the village count
+     */
     public int getVillageCount() {
         return villageCount;
     }
 
     /**
-     * @return last refresh time in milliseconds since epoch
+     * Gets the timestamp of the last cache refresh.
+     *
+     * @return the last refresh time in milliseconds since epoch
      */
     public long getLastRefreshTime() {
         return lastRefreshTime;

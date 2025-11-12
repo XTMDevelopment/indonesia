@@ -16,32 +16,42 @@ import java.util.Map;
 public interface IndonesiaDataLoader {
 
     /**
-     * @return map of province codes to Province objects
-     * @throws DataLoadException if an error occurs while loading
+     * Loads all provinces from the data source.
+     *
+     * @return a map of province codes to Province objects
+     * @throws DataLoadException if an error occurs while loading the data
      */
     Map<Long, Province> loadProvinces() throws DataLoadException;
 
     /**
-     * @return map of city codes to City objects
-     * @throws DataLoadException if an error occurs while loading
+     * Loads all cities from the data source.
+     *
+     * @return a map of city codes to City objects
+     * @throws DataLoadException if an error occurs while loading the data
      */
     Map<Long, City> loadCities() throws DataLoadException;
 
     /**
-     * @return map of district codes to District objects
-     * @throws DataLoadException if an error occurs while loading
+     * Loads all districts from the data source.
+     *
+     * @return a map of district codes to District objects
+     * @throws DataLoadException if an error occurs while loading the data
      */
     Map<Long, District> loadDistricts() throws DataLoadException;
 
     /**
-     * @return map of village codes to Village objects
-     * @throws DataLoadException if an error occurs while loading
+     * Loads all villages from the data source.
+     *
+     * @return a map of village codes to Village objects
+     * @throws DataLoadException if an error occurs while loading the data
      */
     Map<Long, Village> loadVillages() throws DataLoadException;
 
     /**
-     * @return IndonesiaData containing all loaded data
-     * @throws DataLoadException if an error occurs while loading
+     * Loads all administrative data (provinces, cities, districts, and villages) at once.
+     *
+     * @return an IndonesiaData object containing all loaded data
+     * @throws DataLoadException if an error occurs while loading the data
      */
     IndonesiaData loadAllData() throws DataLoadException;
 }

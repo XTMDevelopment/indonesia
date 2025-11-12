@@ -31,11 +31,13 @@ public class District {
     private final double longitude;
 
     /**
-     * @param code      unique district code
-     * @param cityCode  parent city code
-     * @param name      district name
-     * @param latitude  latitude coordinate
-     * @param longitude longitude coordinate
+     * Constructs a new District.
+     *
+     * @param code      the unique district code
+     * @param cityCode  the code of the parent city
+     * @param name      the name of the district
+     * @param latitude  the latitude coordinate
+     * @param longitude the longitude coordinate
      */
     public District(long code, long cityCode, String name, double latitude, double longitude) {
         this.code = code;
@@ -45,22 +47,47 @@ public class District {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the district code.
+     *
+     * @return the district code
+     */
     public long getCode() {
         return code;
     }
 
+    /**
+     * Gets the parent city code.
+     *
+     * @return the city code
+     */
     public long getCityCode() {
         return cityCode;
     }
 
+    /**
+     * Gets the district name.
+     *
+     * @return the district name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the latitude coordinate.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets the longitude coordinate.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }

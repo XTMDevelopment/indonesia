@@ -31,11 +31,13 @@ public class Village {
     private final double longitude;
 
     /**
-     * @param code         unique village code
-     * @param districtCode parent district code
-     * @param name         village name
-     * @param latitude     latitude coordinate
-     * @param longitude    longitude coordinate
+     * Constructs a new Village.
+     *
+     * @param code         the unique village code
+     * @param districtCode the code of the parent district
+     * @param name         the name of the village
+     * @param latitude     the latitude coordinate
+     * @param longitude    the longitude coordinate
      */
     public Village(long code, long districtCode, String name, double latitude, double longitude) {
         this.code = code;
@@ -45,22 +47,47 @@ public class Village {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the village code.
+     *
+     * @return the village code
+     */
     public long getCode() {
         return code;
     }
 
+    /**
+     * Gets the parent district code.
+     *
+     * @return the district code
+     */
     public long getDistrictCode() {
         return districtCode;
     }
 
+    /**
+     * Gets the village name.
+     *
+     * @return the village name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the latitude coordinate.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets the longitude coordinate.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }

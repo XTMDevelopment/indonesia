@@ -29,6 +29,8 @@ public class IndonesiaData {
     private final Map<Long, Village> villages;
 
     /**
+     * Constructs a new IndonesiaData object with all administrative data.
+     *
      * @param provinces map of province codes to Province objects
      * @param cities    map of city codes to City objects
      * @param districts map of district codes to District objects
@@ -41,18 +43,38 @@ public class IndonesiaData {
         this.villages = villages;
     }
 
+    /**
+     * Gets all provinces.
+     *
+     * @return map of province codes to Province objects
+     */
     public Map<Long, Province> getProvinces() {
         return provinces;
     }
 
+    /**
+     * Gets all cities.
+     *
+     * @return map of city codes to City objects
+     */
     public Map<Long, City> getCities() {
         return cities;
     }
 
+    /**
+     * Gets all districts.
+     *
+     * @return map of district codes to District objects
+     */
     public Map<Long, District> getDistricts() {
         return districts;
     }
 
+    /**
+     * Gets all villages.
+     *
+     * @return map of village codes to Village objects
+     */
     public Map<Long, Village> getVillages() {
         return villages;
     }

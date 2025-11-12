@@ -33,10 +33,11 @@ public class DefaultIndonesiaService implements IndonesiaService {
     private final IndonesiaDataLoader loader;
 
     /**
+     * Constructs a new DefaultIndonesiaService with the specified cache and loader.
      * Data is automatically loaded during construction.
      *
-     * @param cache  cache implementation to use
-     * @param loader data loader implementation to use
+     * @param cache  the cache implementation to use
+     * @param loader the data loader implementation to use
      * @throws DataLoadException if data cannot be loaded during initialization
      */
     public DefaultIndonesiaService(IndonesiaDataCache cache, IndonesiaDataLoader loader) {
@@ -241,6 +242,8 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     /**
+     * Loads all administrative data into the cache.
+     *
      * @throws DataLoadException if data cannot be loaded
      */
     private void loadData() throws DataLoadException {
@@ -251,7 +254,9 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     /**
-     * @param query query string to check
+     * Checks if a search query is empty or null.
+     *
+     * @param query the query string to check
      * @return true if the query is null or empty after trimming
      */
     private boolean isQueryEmpty(String query) {
@@ -259,8 +264,10 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     /**
-     * @param districts list of districts to collect villages from
-     * @return list of all villages in the specified districts
+     * Collects all villages from a list of districts.
+     *
+     * @param districts the list of districts to collect villages from
+     * @return a list of all villages in the specified districts
      */
     private List<Village> collectVillagesFromDistricts(List<District> districts) {
         if (districts.isEmpty()) {

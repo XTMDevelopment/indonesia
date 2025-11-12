@@ -11,15 +11,19 @@ package id.xtramile.indonesia.exception;
 public class IndonesiaException extends RuntimeException {
 
     /**
-     * @param message detail message
+     * Constructs a new IndonesiaException with the specified message.
+     *
+     * @param message the detail message
      */
     public IndonesiaException(String message) {
         super(message);
     }
 
     /**
-     * @param message detail message
-     * @param cause   cause of the exception
+     * Constructs a new IndonesiaException with the specified message and cause.
+     *
+     * @param message the detail message
+     * @param cause   the cause of the exception
      */
     public IndonesiaException(String message, Throwable cause) {
         super(message, cause);
