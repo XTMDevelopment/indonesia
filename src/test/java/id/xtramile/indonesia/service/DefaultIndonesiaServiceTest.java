@@ -4,16 +4,14 @@ import id.xtramile.indonesia.IndonesiaDataCache;
 import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.cache.CacheStats;
 import id.xtramile.indonesia.exception.DataLoadException;
-import id.xtramile.indonesia.model.City;
-import id.xtramile.indonesia.model.District;
-import id.xtramile.indonesia.model.Indonesia;
-import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.model.Village;
+import id.xtramile.indonesia.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.*;
 
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@org.mockito.junit.jupiter.MockitoSettings(strictness = org.mockito.quality.Strictness.LENIENT)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class DefaultIndonesiaServiceTest {
 
     @Mock

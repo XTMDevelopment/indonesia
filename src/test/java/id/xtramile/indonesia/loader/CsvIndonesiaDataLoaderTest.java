@@ -1,11 +1,7 @@
 package id.xtramile.indonesia.loader;
 
 import id.xtramile.indonesia.exception.DataLoadException;
-import id.xtramile.indonesia.model.City;
-import id.xtramile.indonesia.model.District;
-import id.xtramile.indonesia.model.IndonesiaData;
-import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.model.Village;
+import id.xtramile.indonesia.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

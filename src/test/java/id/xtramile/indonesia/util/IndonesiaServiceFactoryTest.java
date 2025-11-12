@@ -3,6 +3,8 @@ package id.xtramile.indonesia.util;
 import id.xtramile.indonesia.IndonesiaDataCache;
 import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.IndonesiaService;
+import id.xtramile.indonesia.cache.InMemoryIndonesiaCache;
+import id.xtramile.indonesia.loader.CsvIndonesiaDataLoader;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -20,8 +22,8 @@ class IndonesiaServiceFactoryTest {
 
     @Test
     void testCreateWithCustomCacheAndLoader() {
-        IndonesiaDataCache cache = new id.xtramile.indonesia.cache.InMemoryIndonesiaCache();
-        IndonesiaDataLoader loader = new id.xtramile.indonesia.loader.CsvIndonesiaDataLoader();
+        IndonesiaDataCache cache = new InMemoryIndonesiaCache();
+        IndonesiaDataLoader loader = new CsvIndonesiaDataLoader();
 
         IndonesiaService service = IndonesiaServiceFactory.create(cache, loader);
         assertNotNull(service);
@@ -29,7 +31,7 @@ class IndonesiaServiceFactoryTest {
 
     @Test
     void testCreateThrowsNullPointerExceptionWhenCacheIsNull() {
-        IndonesiaDataLoader loader = new id.xtramile.indonesia.loader.CsvIndonesiaDataLoader();
+        IndonesiaDataLoader loader = new CsvIndonesiaDataLoader();
 
         NullPointerException exception = assertThrows(
                 NullPointerException.class,
@@ -41,7 +43,7 @@ class IndonesiaServiceFactoryTest {
 
     @Test
     void testCreateThrowsNullPointerExceptionWhenLoaderIsNull() {
-        IndonesiaDataCache cache = new id.xtramile.indonesia.cache.InMemoryIndonesiaCache();
+        IndonesiaDataCache cache = new InMemoryIndonesiaCache();
 
         NullPointerException exception = assertThrows(
                 NullPointerException.class,
@@ -55,7 +57,7 @@ class IndonesiaServiceFactoryTest {
     void testConstructorThrowsAssertionError() {
         assertThrows(AssertionError.class, () -> {
             try {
-               Constructor<IndonesiaServiceFactory> constructor =
+                Constructor<IndonesiaServiceFactory> constructor =
                         IndonesiaServiceFactory.class.getDeclaredConstructor();
                 constructor.setAccessible(true);
                 constructor.newInstance();

@@ -3,11 +3,7 @@ package id.xtramile.indonesia.integration;
 import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.exception.DataLoadException;
 import id.xtramile.indonesia.loader.CsvIndonesiaDataLoader;
-import id.xtramile.indonesia.model.City;
-import id.xtramile.indonesia.model.District;
-import id.xtramile.indonesia.model.IndonesiaData;
-import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.model.Village;
+import id.xtramile.indonesia.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -71,7 +67,7 @@ class IndonesiaDataLoaderIntegrationTest {
             assertTrue(district.getCode() > 0);
             assertNotNull(district.getName());
             assertFalse(district.getName().trim().isEmpty());
-            
+
             assertTrue(cities.containsKey(district.getCityCode()),
                     "District " + district.getCode() + " references non-existent city " + district.getCityCode());
         }
@@ -93,7 +89,7 @@ class IndonesiaDataLoaderIntegrationTest {
             assertTrue(village.getCode() > 0);
             assertNotNull(village.getName());
             assertFalse(village.getName().trim().isEmpty());
-            
+
             assertTrue(districts.containsKey(village.getDistrictCode()),
                     "Village " + village.getCode() + " references non-existent district " + village.getDistrictCode());
         }
@@ -169,7 +165,7 @@ class IndonesiaDataLoaderIntegrationTest {
             Village village = villages.values().iterator().next();
             long extractedProvinceCode = village.getCode() / 100000000L;
             long extractedCityCode = village.getCode() / 1000000L;
-            
+
             assertTrue(extractedProvinceCode > 0);
             assertTrue(extractedCityCode > 0);
         }

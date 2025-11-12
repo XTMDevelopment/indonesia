@@ -4,11 +4,7 @@ import id.xtramile.indonesia.IndonesiaService;
 import id.xtramile.indonesia.cache.CacheStats;
 import id.xtramile.indonesia.cache.InMemoryIndonesiaCache;
 import id.xtramile.indonesia.loader.CsvIndonesiaDataLoader;
-import id.xtramile.indonesia.model.City;
-import id.xtramile.indonesia.model.District;
-import id.xtramile.indonesia.model.Indonesia;
-import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.model.Village;
+import id.xtramile.indonesia.model.*;
 import id.xtramile.indonesia.service.DefaultIndonesiaService;
 import id.xtramile.indonesia.util.IndonesiaServiceFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +28,7 @@ class IndonesiaServiceIntegrationTest {
     void testServiceInitialization() {
         assertNotNull(service);
         assertTrue(service.isDataLoaded());
-        
+
         CacheStats stats = service.getCacheStats();
         assertNotNull(stats);
         assertTrue(stats.getProvinceCount() > 0);
@@ -45,10 +41,10 @@ class IndonesiaServiceIntegrationTest {
     void testFindProvinceWithRealData() {
         List<Province> allProvinces = service.getAllProvinces();
         assertFalse(allProvinces.isEmpty());
-        
+
         Province firstProvince = allProvinces.get(0);
         Optional<Province> found = service.findProvince(firstProvince.getCode());
-        
+
         assertTrue(found.isPresent());
         assertEquals(firstProvince.getCode(), found.get().getCode());
         assertEquals(firstProvince.getName(), found.get().getName());
@@ -60,12 +56,12 @@ class IndonesiaServiceIntegrationTest {
     void testGetCitiesByProvinceWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         assertFalse(provinces.isEmpty());
-        
+
         Province province = provinces.get(0);
         List<City> cities = service.getCitiesByProvince(province.getCode());
-        
+
         assertNotNull(cities);
-        
+
         for (City city : cities) {
             assertEquals(province.getCode(), city.getProvinceCode());
             assertTrue(city.getCode() > 0);
@@ -77,15 +73,15 @@ class IndonesiaServiceIntegrationTest {
     void testGetDistrictsByCityWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         assertFalse(provinces.isEmpty());
-        
+
         List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
         if (!cities.isEmpty()) {
 
             City city = cities.get(0);
             List<District> districts = service.getDistrictsByCity(city.getCode());
-            
+
             assertNotNull(districts);
-            
+
             for (District district : districts) {
                 assertEquals(city.getCode(), district.getCityCode());
                 assertTrue(district.getCode() > 0);
@@ -98,7 +94,7 @@ class IndonesiaServiceIntegrationTest {
     void testGetVillagesByDistrictWithRealData() {
         List<Province> provinces = service.getAllProvinces();
         assertFalse(provinces.isEmpty());
-        
+
         List<City> cities = service.getCitiesByProvince(provinces.get(0).getCode());
         if (!cities.isEmpty()) {
 
@@ -107,9 +103,9 @@ class IndonesiaServiceIntegrationTest {
 
                 District district = districts.get(0);
                 List<Village> villages = service.getVillagesByDistrict(district.getCode());
-                
+
                 assertNotNull(villages);
-                
+
                 for (Village village : villages) {
                     assertEquals(district.getCode(), village.getDistrictCode());
                     assertTrue(village.getCode() > 0);
@@ -126,10 +122,10 @@ class IndonesiaServiceIntegrationTest {
 
             String searchTerm = allProvinces.get(0).getName().substring(0, 3);
             List<Province> results = service.searchProvinces(searchTerm);
-            
+
             assertNotNull(results);
             assertFalse(results.isEmpty());
-            
+
             for (Province province : results) {
                 assertTrue(province.getName().toLowerCase().contains(searchTerm.toLowerCase()));
             }
@@ -143,10 +139,10 @@ class IndonesiaServiceIntegrationTest {
 
             String searchTerm = allCities.get(0).getName().substring(0, 3);
             List<City> results = service.searchCities(searchTerm);
-            
+
             assertNotNull(results);
             assertFalse(results.isEmpty());
-            
+
             for (City city : results) {
                 assertTrue(city.getName().toLowerCase().contains(searchTerm.toLowerCase()));
             }
@@ -160,10 +156,10 @@ class IndonesiaServiceIntegrationTest {
 
             String searchTerm = allDistricts.get(0).getName().substring(0, Math.min(3, allDistricts.get(0).getName().length()));
             List<District> results = service.searchDistricts(searchTerm);
-            
+
             assertNotNull(results);
             assertFalse(results.isEmpty());
-            
+
             for (District district : results) {
                 assertTrue(district.getName().toLowerCase().contains(searchTerm.toLowerCase()));
             }
@@ -177,10 +173,10 @@ class IndonesiaServiceIntegrationTest {
 
             String searchTerm = allVillages.get(0).getName().substring(0, Math.min(3, allVillages.get(0).getName().length()));
             List<Village> results = service.searchVillages(searchTerm);
-            
+
             assertNotNull(results);
             assertFalse(results.isEmpty());
-            
+
             for (Village village : results) {
                 assertTrue(village.getName().toLowerCase().contains(searchTerm.toLowerCase()));
             }
@@ -194,7 +190,7 @@ class IndonesiaServiceIntegrationTest {
 
             Province province = provinces.get(0);
             Indonesia indonesia = service.buildFrom(province);
-            
+
             assertNotNull(indonesia);
             assertEquals(province, indonesia.getProvince());
             assertNull(indonesia.getCity());
@@ -213,7 +209,7 @@ class IndonesiaServiceIntegrationTest {
 
                 City city = cities.get(0);
                 Indonesia indonesia = service.buildFrom(city);
-                
+
                 assertNotNull(indonesia);
                 assertNotNull(indonesia.getProvince());
                 assertEquals(city, indonesia.getCity());
@@ -237,7 +233,7 @@ class IndonesiaServiceIntegrationTest {
 
                     District district = districts.get(0);
                     Indonesia indonesia = service.buildFrom(district);
-                    
+
                     assertNotNull(indonesia);
                     assertNotNull(indonesia.getProvince());
                     assertNotNull(indonesia.getCity());
@@ -265,7 +261,7 @@ class IndonesiaServiceIntegrationTest {
 
                         Village village = villages.get(0);
                         Indonesia indonesia = service.buildFrom(village);
-                        
+
                         assertNotNull(indonesia);
                         assertNotNull(indonesia.getProvince());
                         assertNotNull(indonesia.getCity());
@@ -285,7 +281,7 @@ class IndonesiaServiceIntegrationTest {
 
             Province province = provinces.get(0);
             List<Village> villages = service.getVillagesByProvince(province.getCode());
-            
+
             assertNotNull(villages);
 
             List<City> provinceCities = service.getCitiesByProvince(province.getCode());
@@ -296,8 +292,8 @@ class IndonesiaServiceIntegrationTest {
 
                     List<Village> districtVillages = service.getVillagesByDistrict(district.getCode());
                     for (Village village : districtVillages) {
-                        assertTrue(villages.contains(village) || 
-                                   villages.stream().anyMatch(v -> v.getCode() == village.getCode()));
+                        assertTrue(villages.contains(village) ||
+                                villages.stream().anyMatch(v -> v.getCode() == village.getCode()));
                     }
                 }
             }
@@ -314,16 +310,16 @@ class IndonesiaServiceIntegrationTest {
 
                 City city = cities.get(0);
                 List<Village> villages = service.getVillagesByCity(city.getCode());
-                
+
                 assertNotNull(villages);
-                
+
                 List<District> districts = service.getDistrictsByCity(city.getCode());
                 for (District district : districts) {
 
                     List<Village> districtVillages = service.getVillagesByDistrict(district.getCode());
                     for (Village village : districtVillages) {
-                        assertTrue(villages.contains(village) || 
-                                   villages.stream().anyMatch(v -> v.getCode() == village.getCode()));
+                        assertTrue(villages.contains(village) ||
+                                villages.stream().anyMatch(v -> v.getCode() == village.getCode()));
                     }
                 }
             }
@@ -334,13 +330,13 @@ class IndonesiaServiceIntegrationTest {
     void testRefreshData() {
         CacheStats statsBefore = service.getCacheStats();
         assertNotNull(statsBefore);
-        
+
         service.refreshData();
-        
+
         CacheStats statsAfter = service.getCacheStats();
         assertNotNull(statsAfter);
         assertTrue(service.isDataLoaded());
-        
+
         assertTrue(statsAfter.getProvinceCount() > 0);
     }
 
@@ -350,12 +346,12 @@ class IndonesiaServiceIntegrationTest {
         if (!provinces.isEmpty()) {
             Province province = provinces.get(0);
             List<City> cities = service.getCitiesByProvince(province.getCode());
-            
+
             if (!cities.isEmpty()) {
                 City city = cities.get(0);
-                
+
                 assertEquals(province.getCode(), city.getProvinceCode());
-                
+
                 List<District> districts = service.getDistrictsByCity(city.getCode());
                 if (!districts.isEmpty()) {
 
@@ -365,16 +361,16 @@ class IndonesiaServiceIntegrationTest {
 
                     long extractedProvinceCode = district.getCode() / 10000L;
                     assertEquals(province.getCode(), extractedProvinceCode);
-                    
+
                     List<Village> villages = service.getVillagesByDistrict(district.getCode());
                     if (!villages.isEmpty()) {
                         Village village = villages.get(0);
-                        
+
                         assertEquals(district.getCode(), village.getDistrictCode());
-                        
+
                         long extractedProvinceCodeFromVillage = village.getCode() / 100000000L;
                         long extractedCityCodeFromVillage = village.getCode() / 1000000L;
-                        
+
                         assertEquals(province.getCode(), extractedProvinceCodeFromVillage);
                         assertEquals(city.getCode(), extractedCityCodeFromVillage);
                     }
@@ -387,13 +383,13 @@ class IndonesiaServiceIntegrationTest {
     void testFindNonExistentEntity() {
         Optional<Province> province = service.findProvince(999999L);
         assertFalse(province.isPresent());
-        
+
         Optional<City> city = service.findCity(999999L);
         assertFalse(city.isPresent());
-        
+
         Optional<District> district = service.findDistrict(999999L);
         assertFalse(district.isPresent());
-        
+
         Optional<Village> village = service.findVillage(9999999999L);
         assertFalse(village.isPresent());
     }
@@ -403,7 +399,7 @@ class IndonesiaServiceIntegrationTest {
         List<Province> allProvinces = service.getAllProvinces();
         List<Province> emptySearch = service.searchProvinces("");
         List<Province> nullSearch = service.searchProvinces(null);
-        
+
         assertEquals(allProvinces.size(), emptySearch.size());
         assertEquals(allProvinces.size(), nullSearch.size());
     }
@@ -413,10 +409,10 @@ class IndonesiaServiceIntegrationTest {
         InMemoryIndonesiaCache cache = new InMemoryIndonesiaCache();
         CsvIndonesiaDataLoader loader = new CsvIndonesiaDataLoader();
         IndonesiaService customService = new DefaultIndonesiaService(cache, loader);
-        
+
         assertNotNull(customService);
         assertTrue(customService.isDataLoaded());
-        
+
         List<Province> provinces = customService.getAllProvinces();
         assertFalse(provinces.isEmpty());
     }

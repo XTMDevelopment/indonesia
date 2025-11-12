@@ -23,9 +23,8 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
     private final Map<Long, List<City>> citiesByProvince = new ConcurrentHashMap<>();
     private final Map<Long, List<District>> districtsByCity = new ConcurrentHashMap<>();
     private final Map<Long, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
-
-    private volatile boolean loaded = false;
     private final AtomicLong lastRefreshTime = new AtomicLong(0);
+    private volatile boolean loaded = false;
 
     @Override
     public void putProvinces(Map<Long, Province> provinces) {

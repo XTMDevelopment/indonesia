@@ -4,11 +4,7 @@ import com.opencsv.CSVReader;
 import id.xtramile.indonesia.IndonesiaDataLoader;
 import id.xtramile.indonesia.constant.Constant;
 import id.xtramile.indonesia.exception.DataLoadException;
-import id.xtramile.indonesia.model.City;
-import id.xtramile.indonesia.model.District;
-import id.xtramile.indonesia.model.IndonesiaData;
-import id.xtramile.indonesia.model.Province;
-import id.xtramile.indonesia.model.Village;
+import id.xtramile.indonesia.model.*;
 
 import java.io.InputStreamReader;
 import java.util.HashMap;

@@ -10,7 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,11 +30,11 @@ class IndonesiaDataCacheConcurrencyTest {
     @Test
     void testConcurrentPutAndGet() throws InterruptedException {
         Map<Long, Province> provinces = createTestProvinces(100);
-        
+
         ExecutorService executor = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(10);
         AtomicInteger successCount = new AtomicInteger(0);
-        
+
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
                 try {
@@ -50,10 +53,10 @@ class IndonesiaDataCacheConcurrencyTest {
                 }
             });
         }
-        
+
         boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertTrue(successCount.get() > 0);
         assertEquals(provinces.size(), cache.getProvinces().size());
     }
@@ -62,14 +65,14 @@ class IndonesiaDataCacheConcurrencyTest {
     void testConcurrentReadOperations() throws InterruptedException {
         Map<Long, Province> provinces = createTestProvinces(50);
         Map<Long, City> cities = createTestCities(100);
-        
+
         cache.putProvinces(provinces);
         cache.putCities(cities);
-        
+
         ExecutorService executor = Executors.newFixedThreadPool(20);
         CountDownLatch latch = new CountDownLatch(20);
         AtomicInteger readCount = new AtomicInteger(0);
-        
+
         for (int i = 0; i < 20; i++) {
             executor.submit(() -> {
                 try {
@@ -93,7 +96,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertEquals(200, readCount.get());
         assertEquals(provinces.size(), cache.getProvinces().size());
         assertEquals(cities.size(), cache.getCities().size());
@@ -103,11 +106,11 @@ class IndonesiaDataCacheConcurrencyTest {
     void testConcurrentRefresh() throws InterruptedException {
         Map<Long, Province> provinces = createTestProvinces(50);
         cache.putProvinces(provinces);
-        
+
         ExecutorService executor = Executors.newFixedThreadPool(5);
         CountDownLatch latch = new CountDownLatch(5);
         AtomicInteger refreshCount = new AtomicInteger(0);
-        
+
         for (int i = 0; i < 5; i++) {
             executor.submit(() -> {
                 try {
@@ -125,7 +128,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertEquals(5, refreshCount.get());
         assertFalse(cache.isLoaded());
         assertTrue(cache.getProvinces().isEmpty());
@@ -135,7 +138,7 @@ class IndonesiaDataCacheConcurrencyTest {
     void testConcurrentPutDifferentEntities() throws InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         CountDownLatch latch = new CountDownLatch(4);
-        
+
         executor.submit(() -> {
             try {
                 cache.putProvinces(createTestProvinces(10));
@@ -144,7 +147,7 @@ class IndonesiaDataCacheConcurrencyTest {
                 latch.countDown();
             }
         });
-        
+
         executor.submit(() -> {
             try {
                 cache.putCities(createTestCities(20));
@@ -153,7 +156,7 @@ class IndonesiaDataCacheConcurrencyTest {
                 latch.countDown();
             }
         });
-        
+
         executor.submit(() -> {
             try {
                 cache.putDistricts(createTestDistricts(30));
@@ -162,7 +165,7 @@ class IndonesiaDataCacheConcurrencyTest {
                 latch.countDown();
             }
         });
-        
+
         executor.submit(() -> {
             try {
                 cache.putVillages(createTestVillages(40));
@@ -174,7 +177,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertTrue(cache.isLoaded());
         assertFalse(cache.getProvinces().isEmpty());
         assertFalse(cache.getCities().isEmpty());
@@ -222,7 +225,7 @@ class IndonesiaDataCacheConcurrencyTest {
                 }
             });
         }
-        
+
         executor.submit(() -> {
             try {
                 Thread.sleep(200);
@@ -237,7 +240,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(5, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertTrue(readSuccess.get() > 0);
     }
 
@@ -245,11 +248,11 @@ class IndonesiaDataCacheConcurrencyTest {
     void testConcurrentStatsAccess() throws InterruptedException {
         cache.putProvinces(createTestProvinces(100));
         cache.putCities(createTestCities(200));
-        
+
         ExecutorService executor = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(10);
         List<Integer> statsValues = Collections.synchronizedList(new ArrayList<>());
-        
+
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
                 try {
@@ -271,7 +274,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertEquals(500, statsValues.size());
         assertTrue(statsValues.stream().allMatch(count -> count >= 0));
     }
@@ -280,11 +283,11 @@ class IndonesiaDataCacheConcurrencyTest {
     void testThreadSafetyOfIndexedMaps() throws InterruptedException {
         Map<Long, City> cities = createTestCities(100);
         cache.putCities(cities);
-        
+
         ExecutorService executor = Executors.newFixedThreadPool(10);
         CountDownLatch latch = new CountDownLatch(10);
         AtomicInteger successCount = new AtomicInteger(0);
-        
+
         for (int i = 0; i < 10; i++) {
             executor.submit(() -> {
                 try {
@@ -313,7 +316,7 @@ class IndonesiaDataCacheConcurrencyTest {
 
         boolean ignored = latch.await(3, TimeUnit.SECONDS);
         executor.shutdown();
-        
+
         assertTrue(successCount.get() > 0);
     }
 

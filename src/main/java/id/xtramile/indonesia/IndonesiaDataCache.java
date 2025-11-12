@@ -12,20 +12,30 @@ import java.util.Map;
 public interface IndonesiaDataCache {
 
     void putProvinces(Map<Long, Province> provinces);
+
     void putCities(Map<Long, City> cities);
+
     void putDistricts(Map<Long, District> districts);
+
     void putVillages(Map<Long, Village> villages);
 
     Map<Long, Province> getProvinces();
+
     Map<Long, City> getCities();
+
     Map<Long, District> getDistricts();
+
     Map<Long, Village> getVillages();
 
     Map<Long, List<City>> getCitiesByProvince();
+
     Map<Long, List<District>> getDistrictsByCity();
+
     Map<Long, List<Village>> getVillagesByDistrict();
 
     void refresh();
+
     boolean isLoaded();
+
     CacheStats getStats();
 }
