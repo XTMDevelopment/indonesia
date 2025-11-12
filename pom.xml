@@ -9,6 +9,7 @@
 
     <name>Indonesia Java Library</name>
     <description>A Java library for Indonesian administrative data (Provinces, Cities, Districts, Villages)</description>
+    <url>https://github.com/XTMDevelopment/indonesia</url>
 
     <licenses>
         <license>
@@ -24,6 +25,12 @@
             <url>https://github.com/Rigsto</url>
         </developer>
     </developers>
+
+    <scm>
+        <url>https://github.com/XTMDevelopment/indonesia</url>
+        <connection>scm:git:git@github.com/XTMDevelopment/indonesia.git</connection>
+        <developerConnection>scm:git:git@github.com/XTMDevelopment/indonesia.git</developerConnection>
+    </scm>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
