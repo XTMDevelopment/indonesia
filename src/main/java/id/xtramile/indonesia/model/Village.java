@@ -7,6 +7,7 @@ package id.xtramile.indonesia.model;
  * Each village has a unique code, name, parent district code, and geographic coordinates.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class Village {
     /**

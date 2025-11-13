@@ -14,6 +14,7 @@ import java.util.Optional;
  * complete Indonesia objects from individual administrative units.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public interface IndonesiaService {
 

@@ -7,6 +7,7 @@ package id.xtramile.indonesia.model;
  * Each province has a unique code, name, and geographic coordinates.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class Province {
     /**

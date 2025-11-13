@@ -7,6 +7,7 @@ package id.xtramile.indonesia.exception;
  * exception type for all error conditions.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class IndonesiaException extends RuntimeException {
 

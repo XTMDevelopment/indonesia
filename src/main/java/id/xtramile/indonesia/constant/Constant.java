@@ -10,6 +10,8 @@ package id.xtramile.indonesia.constant;
  *   <li>District code: 6 digits (e.g., 112233)</li>
  *   <li>Village code: 10 digits (e.g., 1122334444)</li>
  * </ul>
+ *
+ * @since 1.0
  */
 public final class Constant {
     public static final String CSV_PATH_PROVINCES = "/csv/provinces.csv";

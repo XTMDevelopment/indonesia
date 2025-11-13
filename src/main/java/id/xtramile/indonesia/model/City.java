@@ -7,6 +7,7 @@ package id.xtramile.indonesia.model;
  * Each city has a unique code, name, parent province code, and geographic coordinates.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class City {
     /**

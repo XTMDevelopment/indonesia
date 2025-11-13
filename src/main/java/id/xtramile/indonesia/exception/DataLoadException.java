@@ -7,6 +7,7 @@ package id.xtramile.indonesia.exception;
  * when data cannot be loaded from the data source.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class DataLoadException extends IndonesiaException {
 

@@ -6,6 +6,7 @@ package id.xtramile.indonesia.cache;
  * Contains counts of cached entities and the timestamp of the last refresh.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class CacheStats {
     /**

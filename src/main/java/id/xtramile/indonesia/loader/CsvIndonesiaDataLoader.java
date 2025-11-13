@@ -24,6 +24,7 @@ import java.util.Objects;
  * </ul>
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class CsvIndonesiaDataLoader implements IndonesiaDataLoader {
 

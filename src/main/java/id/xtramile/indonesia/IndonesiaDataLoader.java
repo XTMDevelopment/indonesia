@@ -12,6 +12,7 @@ import java.util.Map;
  * districts, and villages from data sources such as CSV files, databases, or APIs.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public interface IndonesiaDataLoader {
 

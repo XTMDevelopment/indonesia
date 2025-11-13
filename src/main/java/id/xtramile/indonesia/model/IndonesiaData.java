@@ -9,6 +9,7 @@ import java.util.Map;
  * districts, and villages in a single object for convenient data transfer.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class IndonesiaData {
     /**

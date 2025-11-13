@@ -7,6 +7,7 @@ package id.xtramile.indonesia.model;
  * It can be built from any level of the hierarchy, with parent levels automatically populated.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class Indonesia {
     /**

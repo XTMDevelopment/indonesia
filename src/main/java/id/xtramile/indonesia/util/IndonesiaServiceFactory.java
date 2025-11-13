@@ -14,6 +14,7 @@ import id.xtramile.indonesia.service.DefaultIndonesiaService;
  * or custom cache and loader implementations.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public final class IndonesiaServiceFactory {
 

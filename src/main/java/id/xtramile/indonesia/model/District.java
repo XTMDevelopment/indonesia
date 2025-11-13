@@ -7,6 +7,7 @@ package id.xtramile.indonesia.model;
  * Each district has a unique code, name, parent city code, and geographic coordinates.
  *
  * @author Rigsto
+ * @since 1.0
  */
 public class District {
     /**
