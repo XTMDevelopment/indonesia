@@ -8,7 +8,10 @@ import id.xtramile.indonesia.constant.Constant;
 import id.xtramile.indonesia.exception.DataLoadException;
 import id.xtramile.indonesia.model.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
  * queries across all administrative levels.
  *
  * @author Rigsto
+ * @since 1.1
  */
 public class DefaultIndonesiaService implements IndonesiaService {
 
@@ -31,6 +35,11 @@ public class DefaultIndonesiaService implements IndonesiaService {
      * The loader for loading administrative data.
      */
     private final IndonesiaDataLoader loader;
+    /**
+     * Cache for search results to improve performance on repeated queries.
+     * Key format: "searchType:normalizedQuery" (e.g., "provinces:jakarta")
+     */
+    private final ConcurrentHashMap<String, List<?>> searchResultCache;
 
     /**
      * Constructs a new DefaultIndonesiaService with the specified cache and loader.
@@ -43,12 +52,13 @@ public class DefaultIndonesiaService implements IndonesiaService {
     public DefaultIndonesiaService(IndonesiaDataCache cache, IndonesiaDataLoader loader) {
         this.cache = cache;
         this.loader = loader;
+        this.searchResultCache = new ConcurrentHashMap<>();
         loadData();
     }
 
     @Override
     public Optional<Province> findProvince(Long provinceCode) {
-        return Optional.ofNullable(cache.getProvinces().get(provinceCode));
+        return Optional.ofNullable(cache.getProvince(provinceCode));
     }
 
     @Override
@@ -57,25 +67,35 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Province> searchProvinces(String query) {
         if (isQueryEmpty(query)) {
             return getAllProvinces();
         }
 
+        String cacheKey = "provinces:" + normalizeQuery(query);
+        List<?> cached = searchResultCache.get(cacheKey);
+        if (cached != null) {
+            return (List<Province>) cached;
+        }
+
         String lowerQuery = query.toLowerCase();
-        return cache.getProvinces().values().stream()
+        List<Province> results = cache.getProvinces().values().stream()
                 .filter(province -> province.getName().toLowerCase().contains(lowerQuery))
                 .collect(Collectors.toList());
+        
+        searchResultCache.put(cacheKey, results);
+        return results;
     }
 
     @Override
     public Optional<City> findCity(Long cityCode) {
-        return Optional.ofNullable(cache.getCities().get(cityCode));
+        return Optional.ofNullable(cache.getCity(cityCode));
     }
 
     @Override
     public List<City> getCitiesByProvince(Long provinceCode) {
-        return new ArrayList<>(cache.getCitiesByProvince().getOrDefault(provinceCode, new ArrayList<>()));
+        return cache.getCitiesByProvinceCode(provinceCode);
     }
 
     @Override
@@ -84,25 +104,35 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<City> searchCities(String query) {
         if (isQueryEmpty(query)) {
             return getAllCities();
         }
 
+        String cacheKey = "cities:" + normalizeQuery(query);
+        List<?> cached = searchResultCache.get(cacheKey);
+        if (cached != null) {
+            return (List<City>) cached;
+        }
+
         String lowerQuery = query.toLowerCase();
-        return cache.getCities().values().stream()
+        List<City> results = cache.getCities().values().stream()
                 .filter(city -> city.getName().toLowerCase().contains(lowerQuery))
                 .collect(Collectors.toList());
+        
+        searchResultCache.put(cacheKey, results);
+        return results;
     }
 
     @Override
     public Optional<District> findDistrict(Long districtCode) {
-        return Optional.ofNullable(cache.getDistricts().get(districtCode));
+        return Optional.ofNullable(cache.getDistrict(districtCode));
     }
 
     @Override
     public List<District> getDistrictsByCity(Long cityCode) {
-        return new ArrayList<>(cache.getDistrictsByCity().getOrDefault(cityCode, new ArrayList<>()));
+        return cache.getDistrictsByCityCode(cityCode);
     }
 
     @Override
@@ -111,25 +141,35 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<District> searchDistricts(String query) {
         if (isQueryEmpty(query)) {
             return getAllDistricts();
         }
 
+        String cacheKey = "districts:" + normalizeQuery(query);
+        List<?> cached = searchResultCache.get(cacheKey);
+        if (cached != null) {
+            return (List<District>) cached;
+        }
+
         String lowerQuery = query.toLowerCase();
-        return cache.getDistricts().values().stream()
+        List<District> results = cache.getDistricts().values().stream()
                 .filter(district -> district.getName().toLowerCase().contains(lowerQuery))
                 .collect(Collectors.toList());
+        
+        searchResultCache.put(cacheKey, results);
+        return results;
     }
 
     @Override
     public Optional<Village> findVillage(Long villageCode) {
-        return Optional.ofNullable(cache.getVillages().get(villageCode));
+        return Optional.ofNullable(cache.getVillage(villageCode));
     }
 
     @Override
     public List<Village> getVillagesByDistrict(Long districtCode) {
-        return new ArrayList<>(cache.getVillagesByDistrict().getOrDefault(districtCode, new ArrayList<>()));
+        return cache.getVillagesByDistrictCode(districtCode);
     }
 
     @Override
@@ -138,35 +178,35 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Village> searchVillages(String query) {
         if (isQueryEmpty(query)) {
             return getAllVillages();
         }
 
+        String cacheKey = "villages:" + normalizeQuery(query);
+        List<?> cached = searchResultCache.get(cacheKey);
+        if (cached != null) {
+            return (List<Village>) cached;
+        }
+
         String lowerQuery = query.toLowerCase();
-        return cache.getVillages().values().stream()
+        List<Village> results = cache.getVillages().values().stream()
                 .filter(village -> village.getName().toLowerCase().contains(lowerQuery))
                 .collect(Collectors.toList());
+        
+        searchResultCache.put(cacheKey, results);
+        return results;
     }
 
     @Override
     public List<Village> getVillagesByProvince(Long provinceCode) {
-        Map<Long, District> districts = cache.getDistricts();
-        List<District> provinceDistricts = districts.values().stream()
-                .filter(district -> Objects.equals(district.getCode() / Constant.DIVISOR_PROVINCE_FROM_DISTRICT, provinceCode))
-                .collect(Collectors.toList());
-
-        return collectVillagesFromDistricts(provinceDistricts);
+        return cache.getVillagesByProvinceCode(provinceCode);
     }
 
     @Override
     public List<Village> getVillagesByCity(Long cityCode) {
-        Map<Long, District> districts = cache.getDistricts();
-        List<District> cityDistricts = districts.values().stream()
-                .filter(district -> Objects.equals(district.getCityCode(), cityCode))
-                .collect(Collectors.toList());
-
-        return collectVillagesFromDistricts(cityDistricts);
+        return cache.getVillagesByCityCode(cityCode);
     }
 
     @Override
@@ -180,9 +220,7 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Long, Province> provinces = cache.getProvinces();
-
-        return new Indonesia(provinces.get(city.getProvinceCode()), city, null, null);
+        return new Indonesia(cache.getProvince(city.getProvinceCode()), city, null, null);
     }
 
     @Override
@@ -191,12 +229,9 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Long, Province> provinces = cache.getProvinces();
-        Map<Long, City> cities = cache.getCities();
-
         long provinceCode = district.getCode() / Constant.DIVISOR_PROVINCE_FROM_DISTRICT;
 
-        return new Indonesia(provinces.get(provinceCode), cities.get(district.getCityCode()), district, null);
+        return new Indonesia(cache.getProvince(provinceCode), cache.getCity(district.getCityCode()), district, null);
     }
 
     @Override
@@ -205,17 +240,13 @@ public class DefaultIndonesiaService implements IndonesiaService {
             return new Indonesia(null, null, null, null);
         }
 
-        Map<Long, Province> provinces = cache.getProvinces();
-        Map<Long, City> cities = cache.getCities();
-        Map<Long, District> districts = cache.getDistricts();
-
         long provinceCode = village.getCode() / Constant.DIVISOR_PROVINCE_FROM_VILLAGE;
         long cityCode = village.getCode() / Constant.DIVISOR_CITY_FROM_VILLAGE;
 
         return new Indonesia(
-                provinces.get(provinceCode),
-                cities.get(cityCode),
-                districts.get(village.getDistrictCode()),
+                cache.getProvince(provinceCode),
+                cache.getCity(cityCode),
+                cache.getDistrict(village.getDistrictCode()),
                 village
         );
     }
@@ -224,6 +255,7 @@ public class DefaultIndonesiaService implements IndonesiaService {
     public void refreshData() {
         try {
             cache.refresh();
+            searchResultCache.clear(); // Clear search cache when data is refreshed
             loadData();
 
         } catch (DataLoadException e) {
@@ -264,24 +296,16 @@ public class DefaultIndonesiaService implements IndonesiaService {
     }
 
     /**
-     * Collects all villages from a list of districts.
+     * Normalizes a query string for use as a cache key.
+     * <p>
+     * This method trims and converts the query to lowercase to ensure
+     * consistent cache key generation.
      *
-     * @param districts the list of districts to collect villages from
-     * @return a list of all villages in the specified districts
+     * @param query the query string to normalize
+     * @return the normalized query string
      */
-    private List<Village> collectVillagesFromDistricts(List<District> districts) {
-        if (districts.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        Map<Long, List<Village>> villagesByDistrict = cache.getVillagesByDistrict();
-        List<Village> villages = new ArrayList<>();
-
-        for (District district : districts) {
-            List<Village> districtVillages = villagesByDistrict.getOrDefault(district.getCode(), Collections.emptyList());
-            villages.addAll(districtVillages);
-        }
-
-        return villages;
+    private String normalizeQuery(String query) {
+        return query == null ? "" : query.trim().toLowerCase();
     }
+
 }

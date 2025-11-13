@@ -16,6 +16,7 @@ import java.util.Map;
  * with support for hierarchical relationships between administrative units.
  *
  * @author Rigsto
+ * @since 1.1
  */
 public interface IndonesiaDataCache {
 
@@ -98,6 +99,87 @@ public interface IndonesiaDataCache {
      * @return a copy of the map containing lists of villages, keyed by district code
      */
     Map<Long, List<Village>> getVillagesByDistrict();
+
+    /**
+     * Retrieves a province by code without creating a defensive copy.
+     *
+     * @param provinceCode the province code
+     * @return the Province if found, null otherwise
+     * @since 1.1
+     */
+    Province getProvince(Long provinceCode);
+
+    /**
+     * Retrieves a city by code without creating a defensive copy.
+     *
+     * @param cityCode the city code
+     * @return the City if found, null otherwise
+     * @since 1.1
+     */
+    City getCity(Long cityCode);
+
+    /**
+     * Retrieves a district by code without creating a defensive copy.
+     *
+     * @param districtCode the district code
+     * @return the District if found, null otherwise
+     * @since 1.1
+     */
+    District getDistrict(Long districtCode);
+
+    /**
+     * Retrieves a village by code without creating a defensive copy.
+     *
+     * @param villageCode the village code
+     * @return the Village if found, null otherwise
+     * @since 1.1
+     */
+    Village getVillage(Long villageCode);
+
+    /**
+     * Retrieves cities by province code without creating a defensive copy.
+     *
+     * @param provinceCode the province code
+     * @return a list of cities, or empty list if not found
+     * @since 1.1
+     */
+    List<City> getCitiesByProvinceCode(Long provinceCode);
+
+    /**
+     * Retrieves districts by city code without creating a defensive copy.
+     *
+     * @param cityCode the city code
+     * @return a list of districts, or empty list if not found
+     * @since 1.1
+     */
+    List<District> getDistrictsByCityCode(Long cityCode);
+
+    /**
+     * Retrieves villages by district code without creating a defensive copy.
+     *
+     * @param districtCode the district code
+     * @return a list of villages, or empty list if not found
+     * @since 1.1
+     */
+    List<Village> getVillagesByDistrictCode(Long districtCode);
+
+    /**
+     * Retrieves villages by province code using optimized index.
+     *
+     * @param provinceCode the province code
+     * @return a list of villages, or empty list if not found
+     * @since 1.1
+     */
+    List<Village> getVillagesByProvinceCode(Long provinceCode);
+
+    /**
+     * Retrieves villages by city code using optimized index.
+     *
+     * @param cityCode the city code
+     * @return a list of villages, or empty list if not found
+     * @since 1.1
+     */
+    List<Village> getVillagesByCityCode(Long cityCode);
 
     /**
      * Clears all cached data and resets the loaded state.

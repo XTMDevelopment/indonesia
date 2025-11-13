@@ -81,6 +81,14 @@ class DefaultIndonesiaServiceTest {
         villagesByDistrict.put(110101L, Collections.singletonList(village1));
         villagesByDistrict.put(120101L, Collections.singletonList(village2));
 
+        Map<Long, List<Village>> villagesByProvince = new HashMap<>();
+        villagesByProvince.put(11L, Collections.singletonList(village1));
+        villagesByProvince.put(12L, Collections.singletonList(village2));
+
+        Map<Long, List<Village>> villagesByCity = new HashMap<>();
+        villagesByCity.put(1101L, Collections.singletonList(village1));
+        villagesByCity.put(1201L, Collections.singletonList(village2));
+
         when(cache.getProvinces()).thenReturn(provinces);
         when(cache.getCities()).thenReturn(cities);
         when(cache.getDistricts()).thenReturn(districts);
@@ -88,6 +96,27 @@ class DefaultIndonesiaServiceTest {
         when(cache.getCitiesByProvince()).thenReturn(citiesByProvince);
         when(cache.getDistrictsByCity()).thenReturn(districtsByCity);
         when(cache.getVillagesByDistrict()).thenReturn(villagesByDistrict);
+        
+        when(cache.getProvince(11L)).thenReturn(province1);
+        when(cache.getProvince(12L)).thenReturn(province2);
+        when(cache.getCity(1101L)).thenReturn(city1);
+        when(cache.getCity(1201L)).thenReturn(city2);
+        when(cache.getDistrict(110101L)).thenReturn(district1);
+        when(cache.getDistrict(120101L)).thenReturn(district2);
+        when(cache.getVillage(1101011001L)).thenReturn(village1);
+        when(cache.getVillage(1201011001L)).thenReturn(village2);
+        
+        when(cache.getCitiesByProvinceCode(11L)).thenReturn(Collections.singletonList(city1));
+        when(cache.getCitiesByProvinceCode(12L)).thenReturn(Collections.singletonList(city2));
+        when(cache.getDistrictsByCityCode(1101L)).thenReturn(Collections.singletonList(district1));
+        when(cache.getDistrictsByCityCode(1201L)).thenReturn(Collections.singletonList(district2));
+        when(cache.getVillagesByDistrictCode(110101L)).thenReturn(Collections.singletonList(village1));
+        when(cache.getVillagesByDistrictCode(120101L)).thenReturn(Collections.singletonList(village2));
+        when(cache.getVillagesByProvinceCode(11L)).thenReturn(Collections.singletonList(village1));
+        when(cache.getVillagesByProvinceCode(12L)).thenReturn(Collections.singletonList(village2));
+        when(cache.getVillagesByCityCode(1101L)).thenReturn(Collections.singletonList(village1));
+        when(cache.getVillagesByCityCode(1201L)).thenReturn(Collections.singletonList(village2));
+        
         when(cache.isLoaded()).thenReturn(true);
         when(cache.getStats()).thenReturn(new CacheStats(2, 2, 2, 2, System.currentTimeMillis()));
 

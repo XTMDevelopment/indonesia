@@ -1,6 +1,7 @@
 package id.xtramile.indonesia.cache;
 
 import id.xtramile.indonesia.IndonesiaDataCache;
+import id.xtramile.indonesia.constant.Constant;
 import id.xtramile.indonesia.model.City;
 import id.xtramile.indonesia.model.District;
 import id.xtramile.indonesia.model.Province;
@@ -21,6 +22,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * to prevent external modification of the cache.
  *
  * @author Rigsto
+ * @since 1.1
  */
 public class InMemoryIndonesiaCache implements IndonesiaDataCache {
 
@@ -32,6 +34,8 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
     private final Map<Long, List<City>> citiesByProvince = new ConcurrentHashMap<>();
     private final Map<Long, List<District>> districtsByCity = new ConcurrentHashMap<>();
     private final Map<Long, List<Village>> villagesByDistrict = new ConcurrentHashMap<>();
+    private final Map<Long, List<Village>> villagesByProvince = new ConcurrentHashMap<>();
+    private final Map<Long, List<Village>> villagesByCity = new ConcurrentHashMap<>();
     private final AtomicLong lastRefreshTime = new AtomicLong(0);
     private volatile boolean loaded = false;
 
@@ -74,9 +78,21 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
         this.villages.putAll(villages);
 
         this.villagesByDistrict.clear();
-        villages.values().forEach(village ->
-                this.villagesByDistrict.computeIfAbsent(village.getDistrictCode(), k -> new ArrayList<>())
-                        .add(village));
+        this.villagesByProvince.clear();
+        this.villagesByCity.clear();
+
+        villages.values().forEach(village -> {
+            this.villagesByDistrict.computeIfAbsent(village.getDistrictCode(), k -> new ArrayList<>())
+                    .add(village);
+
+            long provinceCode = village.getCode() / Constant.DIVISOR_PROVINCE_FROM_VILLAGE;
+            this.villagesByProvince.computeIfAbsent(provinceCode, k -> new ArrayList<>())
+                    .add(village);
+
+            long cityCode = village.getCode() / Constant.DIVISOR_CITY_FROM_VILLAGE;
+            this.villagesByCity.computeIfAbsent(cityCode, k -> new ArrayList<>())
+                    .add(village);
+        });
 
         updateRefreshTime();
     }
@@ -103,17 +119,95 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
 
     @Override
     public Map<Long, List<City>> getCitiesByProvince() {
-        return new HashMap<>(citiesByProvince);
+        Map<Long, List<City>> result = new HashMap<>();
+        citiesByProvince.forEach((key, value) ->
+                result.put(key, new ArrayList<>(value)));
+
+        return result;
     }
 
     @Override
     public Map<Long, List<District>> getDistrictsByCity() {
-        return new HashMap<>(districtsByCity);
+        Map<Long, List<District>> result = new HashMap<>();
+        districtsByCity.forEach((key, value) ->
+                result.put(key, new ArrayList<>(value)));
+
+        return result;
     }
 
     @Override
     public Map<Long, List<Village>> getVillagesByDistrict() {
         return new HashMap<>(villagesByDistrict);
+    }
+
+    @Override
+    public Province getProvince(Long provinceCode) {
+        return provinceCode != null ? provinces.get(provinceCode) : null;
+    }
+
+    @Override
+    public City getCity(Long cityCode) {
+        return cityCode != null ? cities.get(cityCode) : null;
+    }
+
+    @Override
+    public District getDistrict(Long districtCode) {
+        return districtCode != null ? districts.get(districtCode) : null;
+    }
+
+    @Override
+    public Village getVillage(Long villageCode) {
+        return villageCode != null ? villages.get(villageCode) : null;
+    }
+
+    @Override
+    public List<City> getCitiesByProvinceCode(Long provinceCode) {
+        if (provinceCode == null) {
+            return new ArrayList<>();
+        }
+
+        List<City> cities = citiesByProvince.get(provinceCode);
+        return cities != null ? new ArrayList<>(cities) : new ArrayList<>();
+    }
+
+    @Override
+    public List<District> getDistrictsByCityCode(Long cityCode) {
+        if (cityCode == null) {
+            return new ArrayList<>();
+        }
+
+        List<District> districts = districtsByCity.get(cityCode);
+        return districts != null ? new ArrayList<>(districts) : new ArrayList<>();
+    }
+
+    @Override
+    public List<Village> getVillagesByDistrictCode(Long districtCode) {
+        if (districtCode == null) {
+            return new ArrayList<>();
+        }
+
+        List<Village> villages = villagesByDistrict.get(districtCode);
+        return villages != null ? new ArrayList<>(villages) : new ArrayList<>();
+    }
+
+    @Override
+    public List<Village> getVillagesByProvinceCode(Long provinceCode) {
+        if (provinceCode == null) {
+            return new ArrayList<>();
+        }
+
+        List<Village> villages = villagesByProvince.get(provinceCode);
+        return villages != null ? new ArrayList<>(villages) : new ArrayList<>();
+    }
+
+    @Override
+    public List<Village> getVillagesByCityCode(Long cityCode) {
+        if (cityCode == null) {
+            return new ArrayList<>();
+        }
+
+        List<Village> villages = villagesByCity.get(cityCode);
+        return villages != null ? new ArrayList<>(villages) : new ArrayList<>();
     }
 
     @Override
@@ -146,6 +240,8 @@ public class InMemoryIndonesiaCache implements IndonesiaDataCache {
         citiesByProvince.clear();
         districtsByCity.clear();
         villagesByDistrict.clear();
+        villagesByProvince.clear();
+        villagesByCity.clear();
     }
 
     private void updateRefreshTime() {

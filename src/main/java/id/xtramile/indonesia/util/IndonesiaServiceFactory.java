@@ -47,9 +47,11 @@ public final class IndonesiaServiceFactory {
         if (cache == null) {
             throw new NullPointerException("Cache cannot be null");
         }
+
         if (loader == null) {
             throw new NullPointerException("Loader cannot be null");
         }
+
         return new DefaultIndonesiaService(cache, loader);
     }
 }
